@@ -1,0 +1,26 @@
+{
+  "name": "react-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marco2333/react-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Marco2333/react-demo/issues"
+  },
+  "homepage": "https://github.com/Marco2333/react-demo#readme",
+  "dependencies": {
+    "react": "^15.5.4",
+    "reactify": "^1.1.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}

@@ -59,7 +59,7 @@ ReactDOM.render(listOfItems, document.getElementById('react-root'));
 
 JSX是一个可选的类似HTML的语法，通过它，我们可以不使用React.createElement()就可以创建虚拟DOM树。
 
-```js
+```jsx
 var listOfItems = <ul className="list-of-items">
 					<li className="item-1">Item 1</li>
 					<li className="item-2">Item 2</li>

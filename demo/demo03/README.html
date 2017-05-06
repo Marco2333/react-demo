@@ -1016,27 +1016,158 @@ body .markdown-body
 }
 </style><title>README</title></head><body><article class="markdown-body"><h1 id="react"><a name="user-content-react" href="#react" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>React组件生命周期</h1>
 <p>基本上所有React组件生命周期方法可以分为下面三个阶段：<br />
-- 挂在(Mounting)：这个阶段发生在组件被创建并被插入到DOM时<br />
-- 更新(Updating)：这个阶段发生在组件被重新渲染成虚拟DOM并决定实际DOM是否需要更新时<br />
-- 卸载(Unmounting)：这个阶段发生在组件从DOM中被删除时</p>
+- 挂在(Mounting): 这个阶段发生在组件被创建并被插入到DOM时<br />
+- 更新(Updating): 这个阶段发生在组件被重新渲染成虚拟DOM并决定实际DOM是否需要更新时<br />
+- 卸载(Unmounting): 这个阶段发生在组件从DOM中被删除时</p>
 <h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>组件挂载阶段</h2>
 <p>ES5(React.createClas)<br />
-- getInitialState()<br />
-- componentWillMount()<br />
-- render()<br />
-- componentDidMount()</p>
+- <code>getInitialState()</code><br />
+- <code>componentWillMount()</code><br />
+- <code>render()</code><br />
+- <code>componentDidMount()</code></p>
 <p>ES6(React.Component)<br />
-- constructor()<br />
-- componentWillMount()<br />
-- render()<br />
-- componentDidMount()</p>
-<h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>组件更新阶段</h2>
-<p>ES5/ES6<br />
-- componentWillReceiveProps()<br />
-- shouldComponentUpdate()<br />
-- componentWillUpdate()<br />
-- render()<br />
-- componentDidUpdate()</p>
-<h2 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>组件卸载阶段</h2>
-<p>ES5/ES6<br />
-- componentWillUnmount()</p></article></body></html>
+- <code>constructor()</code><br />
+- <code>componentWillMount()</code><br />
+- <code>render()</code><br />
+- <code>componentDidMount()</code></p>
+<h2 id="render"><a name="user-content-render" href="#render" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>组件更新阶段render(</h2>
+<ul>
+<li><code>componentWillReceiveProps()</code></li>
+<li><code>shouldComponentUpdate()</code></li>
+<li><code>componentWillUpdate()</code></li>
+<li><code>render()</code></li>
+<li><code>componentDidUpdate()</code></li>
+</ul>
+<h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>组件卸载阶段</h2>
+<ul>
+<li><code>componentWillUnmount()</code></li>
+</ul>
+<h2 id="reference"><a name="user-content-reference" href="#reference" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Reference</h2>
+<h3 id="constructor"><a name="user-content-constructor" href="#constructor" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>constructor()</h3>
+<pre><code class="js">constructor(props)
+</code></pre>
+
+<p>在React组件被挂载之前，构造器constructor()首先被调用，由于继承了React.Componen，我们必须在其他语句之前首先调用<code>super(props)</code>；否则，在构造器中<code>this.props</code>的值为undefined，从而引发错误。<br />
+我们可以在构造器中完成初始化组件属性或者绑定方法的功能，如果不需要初始化属性或者绑定方法，则不需要定义构造器。<br />
+<pre><code class="js">constructor(props) {
+    super(props);
+        this.state = {
+        color: props.initialColor
+    };
+}
+</code></pre></p>
+<h3 id="componentwillmount"><a name="user-content-componentwillmount" href="#componentwillmount" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentWillMount()</h3>
+<p><pre><code class="js">componentWillMount()
+</code></pre><br />
+在组件挂载之前，<code>componentWillMount()</code>方法将会被调用。<code>componentWillMount()</code>方法在<code>render()</code>方法之前被调用，所以在该方法中设置状态不会触发重新渲染。</p>
+<h3 id="render_1"><a name="user-content-render_1" href="#render_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>render()</h3>
+<p><pre><code class="js">render()
+</code></pre><br />
+render()方法是必须的，并返回null、false或者一个React Element。<br />
+当返回null或者false时，表示你不想渲染任何东西；并且，<code>ReactDOM.findDOMNode(this)</code>将会返回null。<br />
+<code>render()</code>应该是纯粹的（pure），它不应该修改组件的状态，每次调用 都会返回相同的结果，它不直接与浏览器交互。如果我们想与浏览器进行交互，我们应该在<code>componentDidMount()</code>方法中完成相应的功能。</p>
+<h3 id="componentdidmount"><a name="user-content-componentdidmount" href="#componentdidmount" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentDidMount()</h3>
+<p><pre><code class="js">componentDidMount()
+</code></pre><br />
+componentDidMount()将会在组件挂载之后被调用，在该方法中修改state将会触发重新渲染。可以在该方法中加载远程数据，然后根据新的数据渲染DOM。</p>
+<h3 id="componentwillreceiveprops"><a name="user-content-componentwillreceiveprops" href="#componentwillreceiveprops" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentWillReceiveProps()</h3>
+<p><pre><code class="js">componentWillReceiveProps(nextProps)
+</code></pre><br />
+组件的props可以通过父辈组件来更改， componentWillReceiveProps()会在一个被挂载的组件接收到新属性的时候被调用，有的时候尽管没有属性发生改变，React依然会调用componentWillReceiveProps()，所以如果我们只想处理属性改变的情况，我们需要对比this.props和nextProps。<br />
+在初始挂载的时候<code>componentWillReceiveProp</code>不会被调用，调用<code>this.setState</code>通常不会触发<code>componentWillReceiveProp</code>。</p>
+<h3 id="shouldcomponentupdate"><a name="user-content-shouldcomponentupdate" href="#shouldcomponentupdate" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>shouldComponentUpdate()</h3>
+<p><pre><code class="js">shouldComponentUpdate(nextProps, nextState)
+</code></pre><br />
+默认情况下，在状态发生改变的时候，组件会重新渲染，在渲染之前，<code>shouldComponentUpdate()</code>将会被调用，默认返回<code>true</code>。在组件初始渲染或者调用<code>forceUpdate()</code>时，该方法不会被调用。<br />
+如果<code>shouldComponentUpdate()</code>返回false，那么<code>componentWillUpdate()</code>、<code>render()</code> <code>componentDidUpdate()</code>将不会被调用，但是返回<code>false</code>不会影响子组件的重新渲染。</p>
+<h3 id="componentwillupdate"><a name="user-content-componentwillupdate" href="#componentwillupdate" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentWillUpdate()</h3>
+<p><pre><code class="js">componentWillUpdate(nextProps, nextState)
+</code></pre><br />
+在渲染之前，componentWillUpdate()将会被调用，组件第一次渲染之前不会调用该方法。<br />
+注意，我们不能在这里调用<code>this.setState()</code>，如果我们需要更新状态，我们应该在<code>componentWillReceiveProps()</code>中进行更新。</p>
+<h3 id="componentdidupdate"><a name="user-content-componentdidupdate" href="#componentdidupdate" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentDidUpdate()</h3>
+<p><pre><code class="js">componentDidUpdate(prevProps, prevState)
+</code></pre><br />
+更新完成之后，componentDidUpdate()会被立即调用，组件第一次渲染完成之后不会调用该方法。</p>
+<h3 id="componentwillunmount"><a name="user-content-componentwillunmount" href="#componentwillunmount" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentWillUnmount()</h3>
+<p><pre><code class="js">componentWillUnmount()
+</code></pre><br />
+在组件卸载之前，<code>componentWillUnmount()</code>方法会被调用</p>
+<h3 id="setstate"><a name="user-content-setstate" href="#setstate" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>setState()</h3>
+<p><pre><code class="js">setState(updater, [callback])
+</code></pre><br />
+<code>setState()</code>方法告知React该组件以及其子组件需要用新的状态来重新渲染。为了提高性能，React将setState设置为批次更新，即是异步操作函数，并不能以顺序控制流的方式设置某些事件。</p>
+<h5 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>完成回调</h5>
+<p>setState 函数的第二个参数允许传入回调函数，在状态更新完毕后进行调用。<br />
+<pre><code class="js">this.setState({
+    load: !this.state.load,
+    count: this.state.count + 1
+}, () =&gt; {
+    console.log(this.state.count);
+    console.log('加载完成')
+});
+</code></pre></p>
+<h5 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>传入状态计算函数</h5>
+<p>除了使用回调函数的方式监听状态更新结果之外，React还允许我们传入某个状态计算函数而不是对象来作为第一个参数。状态计算函数能够为我们提供可信赖的组件的State与Props值，即会自动地将我们的状态更新操作添加到队列中并等待前面的更新完毕后传入最新的状态值：<br />
+以简单的计数器为例，我们希望用户点击按钮之后将计数值连加两次:<br />
+<pre><code class="js">class Counter extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {count : 0} 
+        this.incrementCount = this.incrementCount.bind(this)
+    }
+    incrementCount(){
+        // ...
+    }
+    render(){
+        return &lt;div&gt;
+                   &lt;button onClick={this.incrementCount}&gt;Increment&lt;/button&gt;
+                   {this.state.count}
+               &lt;/div&gt;
+    }
+}
+</code></pre></p>
+<p>为了说明异步更新带来的数据不可预测问题，我们可以连续两次调用setState函数：<br />
+<pre><code class="js">incrementCount(){
+    this.setState({count : this.state.count + 1}) 
+    this.setState({count : this.state.count + 1})
+}
+</code></pre><br />
+上述代码的效果是每次点击之后计数值只会加1，因为第二个setState并没有等待第一个setState执行完毕就开始执行了，因此其依赖的当前计数值完全是错的。</p>
+<p>我们可以使用状态计算函数来保证数据的同步性：<br />
+<pre><code class="js">incrementCount(){
+    this.setState((prevState, props) =&gt; ({
+        count: prevState.count + 1
+    }));
+    this.setState((prevState, props) =&gt; ({
+        count: prevState.count + 1
+    }));
+}
+</code></pre></p>
+<h3 id="forceupdate"><a name="user-content-forceupdate" href="#forceupdate" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>forceUpdate()</h3>
+<p><pre><code class="js">component.forceUpdate(callback)
+</code></pre><br />
+如果<code>render()</code>方法从 this.props 或者 this.state 之外的地方读取数据，你需要通过调用 forceUpdate() 告诉 React 什么时候需要再次运行 render()。如果直接改变了 this.state，也需要调用 forceUpdate()。<br />
+调用 forceUpdate() 将会导致 render() 方法在相应的组件上被调用，并且会跳过<code>shouldComponentUpdate()</code>方法。另外，这也会触发子组件的生命周期函数，包括每个子组件的shouldComponentUpdate()。<br />
+通常情况下，应该尽量避免所有使用 forceUpdate() 的情况，在 render() 中仅从 this.props 和 this.state 中读取数据。这会使应用大大简化，并且更加高效。</p>
+<h2 id="class-properties"><a name="user-content-class-properties" href="#class-properties" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Class Properties</h2>
+<h4 id="defaultprops"><a name="user-content-defaultprops" href="#defaultprops" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>defaultProps</h4>
+<p><pre><code class="js">class CustomButton extends React.Component {
+    // ...
+}
+
+CustomButton.defaultProps = {
+    color: 'blue'
+};
+</code></pre><br />
+<pre><code class="js">render() {
+    return &lt;CustomButton /&gt; ; // props.color will be set to blue
+}
+</code></pre><br />
+<pre><code class="js">render() {
+    return &lt;CustomButton color={null} /&gt; ; // props.color will remain null
+}
+</code></pre></p>
+<h2 id="instance-properties"><a name="user-content-instance-properties" href="#instance-properties" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Instance Properties</h2>
+<h4 id="props"><a name="user-content-props" href="#props" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>props</h4>
+<h4 id="state"><a name="user-content-state" href="#state" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>state</h4></article></body></html>

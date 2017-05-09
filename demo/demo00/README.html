@@ -1014,160 +1014,368 @@ body .markdown-body
     page-break-after: avoid;
   }
 }
-</style><title>README</title></head><body><article class="markdown-body"><h1 id="react"><a name="user-content-react" href="#react" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>React组件生命周期</h1>
-<p>基本上所有React组件生命周期方法可以分为下面三个阶段：<br />
-- 挂在(Mounting): 这个阶段发生在组件被创建并被插入到DOM时<br />
-- 更新(Updating): 这个阶段发生在组件被重新渲染成虚拟DOM并决定实际DOM是否需要更新时<br />
-- 卸载(Unmounting): 这个阶段发生在组件从DOM中被删除时</p>
-<h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>组件挂载阶段</h2>
-<p>ES5(React.createClas)<br />
-- <code>getInitialState()</code><br />
-- <code>componentWillMount()</code><br />
-- <code>render()</code><br />
-- <code>componentDidMount()</code></p>
-<p>ES6(React.Component)<br />
-- <code>constructor()</code><br />
-- <code>componentWillMount()</code><br />
-- <code>render()</code><br />
-- <code>componentDidMount()</code></p>
-<h2 id="render"><a name="user-content-render" href="#render" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>组件更新阶段render(</h2>
+</style><title>README</title></head><body><article class="markdown-body"><h1 id="webpack"><a name="user-content-webpack" href="#webpack" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>webpack从入门到放弃</h1>
+<h2 id="webpack_1"><a name="user-content-webpack_1" href="#webpack_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>一、webpack简介</h2>
+<h3 id="11-webpack"><a name="user-content-11-webpack" href="#11-webpack" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>1.1 什么是webpack</h3>
+<p>webpack是一个module bundler（模块打包工具），所谓的模块就是在平时的前端开发中，用到一些静态资源，如JavaScript、CSS、图片等文件，webpack就将这些静态资源文件称之为模块。<br />
+webpack支持AMD和CommonJS，以及其他的一些模块系统，并且兼容多种JS书写规范，可以处理模块间的依赖关系，所以具有更强大的JS模块化的功能，它能对静态资源进行统一的管理以及打包发布。<br />
+它在很多地方都能替代Grunt和Gulp，因为它能够编译打包CSS，做CSS预处理，对JS的方言进行编译，打包图片，代码压缩等等。</p>
+<h3 id="12-webpack"><a name="user-content-12-webpack" href="#12-webpack" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>1.2 为什么使用webpack</h3>
 <ul>
-<li><code>componentWillReceiveProps()</code></li>
-<li><code>shouldComponentUpdate()</code></li>
-<li><code>componentWillUpdate()</code></li>
-<li><code>render()</code></li>
-<li><code>componentDidUpdate()</code></li>
+<li>对 CommonJS 、AMD 、ES6的语法做了兼容；</li>
+<li>对js、css、图片等资源文件都支持打包；</li>
+<li>串联式<strong>模块加载器</strong>以及<strong>插件机制</strong>,让其具有更好的灵活性和扩展性，例如提供对CoffeeScript、ES6的支持；</li>
+<li>有独立的配置文件webpack.config.js；</li>
+<li>可以将代码切割成不同的chunk，实现按需加载，降低了初始化时间；</li>
+<li>支持 SourceUrls 和 SourceMaps，易于调试；</li>
+<li>具有强大的Plugin接口，大多是内部插件，使用起来比较灵活；</li>
+<li>webpack 使用异步 IO 并具有多级缓存。这使得 webpack 很快且在增量编译上更加快；</li>
 </ul>
-<h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>组件卸载阶段</h2>
-<ul>
-<li><code>componentWillUnmount()</code></li>
-</ul>
-<h2 id="reference"><a name="user-content-reference" href="#reference" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Reference</h2>
-<h3 id="constructor"><a name="user-content-constructor" href="#constructor" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>constructor()</h3>
-<pre><code class="js">constructor(props)
-</code></pre>
+<h2 id="webpack_2"><a name="user-content-webpack_2" href="#webpack_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>二、开始使用webpack</h2>
+<h3 id="21"><a name="user-content-21" href="#21" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.1 安装</h3>
+<p><pre><code class="js">// 创建package.json文件
+npm init
+</code></pre><br />
+<pre><code class="js">//全局安装
+npm install -g webpack
+//安装到你的项目目录
+npm install --save-dev webpack
+</code></pre></p>
+<h3 id="22"><a name="user-content-22" href="#22" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.2 创建项目结构</h3>
+<p><a href="https://github.com/Marco2333/react-demo/tree/master/demo/demo00/1.png"></a></p>
+<p>index.html<br />
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;title&gt;Webpack&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id='root'&gt;&lt;/div&gt;
+        &lt;script src=&quot;bundle.js&quot;&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></p>
+<p>Greeter.js<br />
+<pre><code class="js">// Greeter.js
+module.exports = function() {
+    var greet = document.createElement('div');
+    greet.textContent = &quot;Hi there and greetings!&quot;;
+    return greet;
+};
+</code></pre></p>
+<p>main.js<br />
+<pre><code class="js">//main.js 
+var greeter = require('./Greeter.js');
+document.getElementById('root').appendChild(greeter());
+</code></pre></p>
+<h3 id="23-webpack"><a name="user-content-23-webpack" href="#23-webpack" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.3 正式使用webpack</h3>
+<h4 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>终端运行最基础的命令</h4>
+<p><pre><code class="js">webpack {entry file/入口文件} {destination for bundled file/存放bundle.js的地方}
+</code></pre><br />
+只需要指定一个入口文件，webpack将自动识别项目所依赖的其它文件。<br />
+<pre><code class="js">//webpack非全局安装的情况
+//linux
+./node_modules/.bin/webpack app/main.js public/bundle.js
+//windows
+.\\node_modules\\.bin\\webpack app/main.js public/bundle.js
+//webpack全局安装的情况
+webpack app/main.js public/bundle.js
+</code></pre></p>
+<h4 id="webpack_3"><a name="user-content-webpack_3" href="#webpack_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>通过配置文件来使用webpack</h4>
+<p>webpack拥有很多其他的高级功能，这些功能都可以使用命令行形式实现，但是使用命令行的形式不太方便并且容易出错，一种更好的办法是采用配置文件的形式，一个配置文件也是一个JavaScript模块，可以把所有的与构建相关的信息放在里面。<br />
+定义webpack.config.js，上面的例子可以写成如下的配置文件形式：<br />
+<pre><code class="js">module.exports = {
+    entry:  __dirname + &quot;/app/main.js&quot;,//唯一入口文件
+    output: {
+        path: __dirname + &quot;/public&quot;,//打包后的文件存放的地方
+        filename: &quot;bundle.js&quot;//打包后输出文件的文件名
+    }
+}
+</code></pre><br />
+在命令行中运行：<br />
+<pre><code class="js">//webpack非全局安装的情况
+//linux
+./node_modules/.bin/webpack
+//windows
+.\\node_modules\\.bin\\webpack
+//webpack全局安装的情况
+webpack
+</code></pre></p>
+<h4 id="npm"><a name="user-content-npm" href="#npm" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>npm 引导执行任务</h4>
+<p>如果没有全局安装webpack，直接运行./node_modules/.bin/webpack是比较麻烦并且容易出错的，我们可以通过npm引导任务执行，对其进行配置之后，可以使用<code>npm start</code>命令来代替这些命令。<br />
+<pre><code class="js">&quot;scripts&quot;: {
+    &quot;start&quot;: &quot;webpack&quot; // 相当于把npm的start命令指向webpack命令
+}
+</code></pre><br />
+package.json中的脚本部分已经默认在命令前添加了./node_modules/.bin路径，所以无论是全局还是局部安装的Webpack，都不需要写前面那指明详细的路径了。<br />
+另外，npm的start是一个特殊的脚本名称，它的特殊性表现在，在命令行中使用npm start就可以执行相关命令，如果对应的此脚本名称不是start，想要在命令行中运行时，需要这样用npm run {script name}如npm run build。</p>
+<h2 id="webpack_4"><a name="user-content-webpack_4" href="#webpack_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>三、强大的webpack</h2>
+<h3 id="31-source-maps"><a name="user-content-31-source-maps" href="#31-source-maps" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.1 生成Source Maps</h3>
+<p>开发总是离不开调试，如果可以更加方便的调试当然就能提高开发效率，不过打包后的文件有时候不容易找到出错的地方对应的源代码位置，Source Maps就是来解决这个问题的。<br />
+在webpack的配置文件中配置source maps，需要配置devtool，它有以下四种不同的配置选项：<br />
+| devtool | 配置结果 |<br />
+|---------|----------|<br />
+|source-map|在一个单独的文件中产生一个完整且功能完全的文件。这个文件具有最好的source map，但是它会减慢打包文件的构建速度；|<br />
+|cheap-module-source-map|在一个单独的文件中生成一个不带列映射的map，不带列映射提高项目构建速度，但是也使得浏览器开发者工具只能对应到具体的行，不能对应到具体的列（符号），会对调试造成不便；|<br />
+|eval-source-map|使用eval打包源文件模块，在同一个文件中生成干净的完整的source map。这个选项可以在不影响构建速度的前提下生成完整的sourcemap，但是对打包后输出的JS文件的执行具有性能和安全的隐患。不过在开发阶段这是一个非常好的选项，但是在生产阶段一定不要用这个选项；|<br />
+|cheap-module-eval-source-map|这是在打包文件时最快的生成source map的方法，生成的Source Map 会和打包后的JavaScript文件同行显示，没有列映射，和eval-source-map选项具有相似的缺点；|<br />
+<pre><code class="js">module.exports = {
+    devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
+    entry:  __dirname + &quot;/app/main.js&quot;,
+    output: {
+        path: __dirname + &quot;/public&quot;,
+        filename: &quot;bundle.js&quot;
+    }
+}
+</code></pre></p>
+<h3 id="32-webpack"><a name="user-content-32-webpack" href="#32-webpack" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.2 使用webpack构建本地服务器</h3>
+<p>webpack提供一个可选的本地开发服务器，可以检测代码的修改，并自动刷新浏览器的结果。该本地服务器基于node.js构建，在使用前我们需要单独安装作为项目依赖。<br />
+<pre><code class="js">npm install --save-dev webpack-dev-server
+</code></pre></p>
+<p>配置选项：<br />
+- contentBase：默认webpack-dev-server会为根文件夹提供本地服务器，如果想为另外一个目录下的文件提供本地服务器，应该在这里设置其所在目录（本例设置到“public&rdquo;目录）<br />
+- port：设置默认监听端口，如果省略，默认为“8080”<br />
+- inline：设置为true，当源文件改变时会自动刷新页面<br />
+- historyApiFallback：在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html</p>
+<p>启动server：<br />
+<pre><code class="js">//webpack非全局安装的情况
+//linux
+./node_modules/.bin/webpack-dev-server
+//windows
+.\\node_modules\\.bin\\webpack-dev-server
+//使用npm
+//package.json
+&quot;server&quot;: &quot;webpack-dev-server&quot;
+//运行
+npm run server
+</code></pre></p>
+<h3 id="33-loaders"><a name="user-content-33-loaders" href="#33-loaders" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.3 Loaders</h3>
+<p>Loaders是webpack中最激动人心的功能之一了。使用不同的loader，webpack通过调用外部脚本或者工具可以对不同格式的文件进行处理。<br />
+Loaders需要单独安装并且需要在webpack.config.js下的modules关键字下进行配置，Loaders的配置选项包括以下几方面：<br />
+- test：一个匹配loaders所处理的文件的拓展名的正则表达式（必须）<br />
+- loader：loader的名称（必须）<br />
+- include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）；<br />
+- query：为loaders提供额外的设置选项（可选）</p>
+<h4 id="331-babel"><a name="user-content-331-babel" href="#331-babel" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.3.1 babel</h4>
+<p>Babel其实是一个编译JavaScript的平台，它的强大之处表现在可以通过编译帮你达到以下目的：<br />
+- 下一代的JavaScript标准（ES6，ES7），这些标准目前并未被当前的浏览器完全的支持；<br />
+- 使用基于JavaScript进行了拓展的语言，比如React的JSX</p>
+<p>安装依赖包：<br />
+<pre><code class="js">// npm一次性安装多个依赖模块，模块之间用空格隔开
+npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-react
+</code></pre></p>
+<p>在webpack.config.js中配置babel<br />
+<pre><code class="js">module.exports = {
+    devtool: 'eval-source-map',
 
-<p>在React组件被挂载之前，构造器constructor()首先被调用，由于继承了React.Componen，我们必须在其他语句之前首先调用<code>super(props)</code>；否则，在构造器中<code>this.props</code>的值为undefined，从而引发错误。<br />
-我们可以在构造器中完成初始化组件属性或者绑定方法的功能，如果不需要初始化属性或者绑定方法，则不需要定义构造器。<br />
-<pre><code class="js">constructor(props) {
-    super(props);
-        this.state = {
-        color: props.initialColor
-    };
-}
-</code></pre></p>
-<h3 id="componentwillmount"><a name="user-content-componentwillmount" href="#componentwillmount" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentWillMount()</h3>
-<p><pre><code class="js">componentWillMount()
-</code></pre><br />
-在组件挂载之前，<code>componentWillMount()</code>方法将会被调用。<code>componentWillMount()</code>方法在<code>render()</code>方法之前被调用，所以在该方法中设置状态不会触发重新渲染。</p>
-<h3 id="render_1"><a name="user-content-render_1" href="#render_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>render()</h3>
-<p><pre><code class="js">render()
-</code></pre><br />
-render()方法是必须的，并返回null、false或者一个React Element。<br />
-当返回null或者false时，表示你不想渲染任何东西；并且，<code>ReactDOM.findDOMNode(this)</code>将会返回null。<br />
-<code>render()</code>应该是纯粹的（pure），它不应该修改组件的状态，每次调用 都会返回相同的结果，它不直接与浏览器交互。如果我们想与浏览器进行交互，我们应该在<code>componentDidMount()</code>方法中完成相应的功能。</p>
-<h3 id="componentdidmount"><a name="user-content-componentdidmount" href="#componentdidmount" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentDidMount()</h3>
-<p><pre><code class="js">componentDidMount()
-</code></pre><br />
-componentDidMount()将会在组件挂载之后被调用，在该方法中修改state将会触发重新渲染。可以在该方法中加载远程数据，然后根据新的数据渲染DOM。</p>
-<h3 id="componentwillreceiveprops"><a name="user-content-componentwillreceiveprops" href="#componentwillreceiveprops" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentWillReceiveProps()</h3>
-<p><pre><code class="js">componentWillReceiveProps(nextProps)
-</code></pre><br />
-组件的props可以通过父辈组件来更改， componentWillReceiveProps()会在一个被挂载的组件接收到新属性的时候被调用，有的时候尽管没有属性发生改变，React依然会调用componentWillReceiveProps()，所以如果我们只想处理属性改变的情况，我们需要对比this.props和nextProps。<br />
-在初始挂载的时候<code>componentWillReceiveProp</code>不会被调用，调用<code>this.setState</code>通常不会触发<code>componentWillReceiveProp</code>。</p>
-<h3 id="shouldcomponentupdate"><a name="user-content-shouldcomponentupdate" href="#shouldcomponentupdate" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>shouldComponentUpdate()</h3>
-<p><pre><code class="js">shouldComponentUpdate(nextProps, nextState)
-</code></pre><br />
-默认情况下，在状态发生改变的时候，组件会重新渲染，在渲染之前，<code>shouldComponentUpdate()</code>将会被调用，默认返回<code>true</code>。在组件初始渲染或者调用<code>forceUpdate()</code>时，该方法不会被调用。<br />
-如果<code>shouldComponentUpdate()</code>返回false，那么<code>componentWillUpdate()</code>、<code>render()</code> <code>componentDidUpdate()</code>将不会被调用，但是返回<code>false</code>不会影响子组件的重新渲染。</p>
-<h3 id="componentwillupdate"><a name="user-content-componentwillupdate" href="#componentwillupdate" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentWillUpdate()</h3>
-<p><pre><code class="js">componentWillUpdate(nextProps, nextState)
-</code></pre><br />
-在渲染之前，componentWillUpdate()将会被调用，组件第一次渲染之前不会调用该方法。<br />
-注意，我们不能在这里调用<code>this.setState()</code>，如果我们需要更新状态，我们应该在<code>componentWillReceiveProps()</code>中进行更新。</p>
-<h3 id="componentdidupdate"><a name="user-content-componentdidupdate" href="#componentdidupdate" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentDidUpdate()</h3>
-<p><pre><code class="js">componentDidUpdate(prevProps, prevState)
-</code></pre><br />
-更新完成之后，componentDidUpdate()会被立即调用，组件第一次渲染完成之后不会调用该方法。</p>
-<h3 id="componentwillunmount"><a name="user-content-componentwillunmount" href="#componentwillunmount" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>componentWillUnmount()</h3>
-<p><pre><code class="js">componentWillUnmount()
-</code></pre><br />
-在组件卸载之前，<code>componentWillUnmount()</code>方法会被调用</p>
-<h3 id="setstate"><a name="user-content-setstate" href="#setstate" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>setState()</h3>
-<p><pre><code class="js">setState(updater, [callback])
-</code></pre><br />
-<code>setState()</code>方法告知React该组件以及其子组件需要用新的状态来重新渲染。为了提高性能，React将setState设置为批次更新，即是异步操作函数，并不能以顺序控制流的方式设置某些事件。</p>
-<h4 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>完成回调</h4>
-<p>setState 函数的第二个参数允许传入回调函数，在状态更新完毕后进行调用。<br />
-<pre><code class="js">this.setState({
-    load: !this.state.load,
-    count: this.state.count + 1
-}, () =&gt; {
-    console.log(this.state.count);
-    console.log('加载完成')
-});
-</code></pre></p>
-<h4 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>传入状态计算函数</h4>
-<p>除了使用回调函数的方式监听状态更新结果之外，React还允许我们传入某个状态计算函数而不是对象来作为第一个参数。状态计算函数能够为我们提供可信赖的组件的State与Props值，即会自动地将我们的状态更新操作添加到队列中并等待前面的更新完毕后传入最新的状态值：<br />
-以简单的计数器为例，我们希望用户点击按钮之后将计数值连加两次:<br />
-<pre><code class="js">class Counter extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {count : 0} 
-        this.incrementCount = this.incrementCount.bind(this)
-    }
-    incrementCount(){
-        // ...
-    }
-    render(){
-        return &lt;div&gt;
-                   &lt;button onClick={this.incrementCount}&gt;Increment&lt;/button&gt;
-                   {this.state.count}
-               &lt;/div&gt;
+    entry: __dirname + &quot;/app/main.js&quot;,
+    output: {
+        path: __dirname + &quot;/public&quot;,
+        filename: &quot;bundle.js&quot;
+    },
+
+    module: {
+        loaders: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader', //在webpack的module部分的loaders里进行配置即可
+            query: {
+                presets: ['es2015', 'react']
+            }
+        }]
+    },
+    devServer: {
+        contentBase: &quot;./public&quot;,
+        historyApiFallback: true,
+        inline: true
     }
 }
 </code></pre></p>
-<p>为了说明异步更新带来的数据不可预测问题，我们可以连续两次调用setState函数：<br />
-<pre><code class="js">incrementCount(){
-    this.setState({count : this.state.count + 1}) 
-    this.setState({count : this.state.count + 1})
-}
-</code></pre><br />
-上述代码的效果是每次点击之后计数值只会加1，因为第二个setState并没有等待第一个setState执行完毕就开始执行了，因此其依赖的当前计数值完全是错的。</p>
-<p>我们可以使用状态计算函数来保证数据的同步性：<br />
-<pre><code class="js">incrementCount(){
-    this.setState((prevState, props) =&gt; ({
-        count: prevState.count + 1
-    }));
-    this.setState((prevState, props) =&gt; ({
-        count: prevState.count + 1
-    }));
-}
+<p>安装react<br />
+<pre><code class="js">npm install --save react react-dom
 </code></pre></p>
-<h3 id="forceupdate"><a name="user-content-forceupdate" href="#forceupdate" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>forceUpdate()</h3>
-<p><pre><code class="js">component.forceUpdate(callback)
-</code></pre><br />
-如果<code>render()</code>方法从 this.props 或者 this.state 之外的地方读取数据，你需要通过调用 forceUpdate() 告诉 React 什么时候需要再次运行 render()。如果直接改变了 this.state，也需要调用 forceUpdate()。<br />
-调用 forceUpdate() 将会导致 render() 方法在相应的组件上被调用，并且会跳过<code>shouldComponentUpdate()</code>方法。另外，这也会触发子组件的生命周期函数，包括每个子组件的shouldComponentUpdate()。<br />
-通常情况下，应该尽量避免所有使用 forceUpdate() 的情况，在 render() 中仅从 this.props 和 this.state 中读取数据。这会使应用大大简化，并且更加高效。</p>
-<h2 id="class-properties"><a name="user-content-class-properties" href="#class-properties" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Class Properties</h2>
-<h4 id="defaultprops"><a name="user-content-defaultprops" href="#defaultprops" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>defaultProps</h4>
-<p><pre><code class="js">class CustomButton extends React.Component {
-    // ...
+<p>s使用ES6的语法，更新Greeter.js：<br />
+<pre><code class="jsx">//Greeter,js
+import React, {Component} from 'react'
+
+class Greeter extends Component{
+    render() {
+        return (
+          &lt;div&gt;
+            &lt;span&gt;Marco&lt;/span&gt;
+          &lt;/div&gt;
+        );
+    }
 }
 
-CustomButton.defaultProps = {
-    color: 'blue'
+export default Greeter
+</code></pre><br />
+<pre><code class="js">//main.js
+import React from 'react';
+import {render} from 'react-dom';
+import Greeter from './Greeter';
+render(&lt;Greeter /&gt;, document.getElementById('root'));
+</code></pre></p>
+<p><strong> Babel的配置选项 </strong><br />
+因为babel有非常多的配置选项,在单一的webpack.config.js文件中进行配置往往使得这个文件显得太复杂，因此一些开发者支持把babel的配置选项放在一个单独的名为 &ldquo;.babelrc&rdquo; 的配置文件中。因此现在我们就提取出相关部分，分两个配置文件进行配置（webpack会自动调用.babelrc里的babel配置选项）。<br />
+<pre><code class="js">// webpack.config.js
+module.exports = {
+    devtool: 'eval-source-map',
+
+    entry: __dirname + &quot;/app/main.js&quot;,
+    output: {
+        path: __dirname + &quot;/public&quot;,
+        filename: &quot;bundle.js&quot;
+    },
+
+    module: {
+        loaders: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader'
+        }]
+    },
+
+    devServer: {...
+    } // Omitted for brevity
+}
+</code></pre><br />
+<pre><code class="js">//.babelrc
+{
+  &quot;presets&quot;: [&quot;react&quot;, &quot;es2015&quot;]
+}
+</code></pre></p>
+<h1 id="webpack_5"><a name="user-content-webpack_5" href="#webpack_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>四、解决webpack打包慢的问题</h1>
+<p>每次修改代码，gulp或者webpack检测到都会重新打包。但是，大多数情况下，需要重新打包的只有业务代码，其余的第三方库是不需要重新打包的，它们的存在只会减慢打包性能，所以我们需要优化打包过程。</p>
+<h2 id="41-external"><a name="user-content-41-external" href="#41-external" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>4.1 配置external</h2>
+<p><pre><code class="js">module.exports = {
+    externals: {
+        'react': 'window.React',
+        'react-dom': 'window.ReactDOM'
+    }
+    //其它配置忽略...... 
 };
 </code></pre><br />
-<pre><code class="js">render() {
-    return &lt;CustomButton /&gt; ; // props.color will be set to blue
+这样react和react-dom就不需要打包了，不过需要提前加载react.min.js和react-dom.min.js，让全局中存在React和ReactDOM变量。</p>
+<p><strong> 配置external </strong>的缺陷<br />
+- 如果我们依赖的一些没有设置到externals中的模块依赖了已经设置到externals中的模块，被依赖的模块依然会重新打包<br />
+- 有些模块或库没有提供类似 ***.min.js 文件</p>
+<h2 id="42moduleexternals"><a name="user-content-42moduleexternals" href="#42moduleexternals" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>4.2手工打包module，设置externals</h2>
+<p>创建lib-bundle.js文件<br />
+<pre><code class="js">window.__LIB[&quot;react&quot;] = require(&quot;react&quot;);
+window.__LIB[&quot;react-addons-css-transition-group&quot;] = require(&quot;react-addons-css-transition-group&quot;);
+// ...其它依赖包
+</code></pre><br />
+这里我们把一些第三方库注册到了<code>window.__LIB</code>下，这些库可以作为底层的基础库，免于重复打包。<br />
+然后执行：<br />
+<pre><code class="js">webpack lib-bundle.js lib.js
+</code></pre><br />
+得到打包好的lib.js，再去设置externals:<br />
+<pre><code class="js">var webpack = require('webpack');
+module.exports = {
+    externals: {
+        'react': 'window.__LIB[&quot;react&quot;]',
+        'react-addons-css-transition-group': 'window.__LIB[&quot;react-addons-css-transition-group&quot;]',
+        // 其它库
+    }
+    //其它配置忽略...... 
+};
+</code></pre></p>
+<h2 id="43-webpackdllplugin"><a name="user-content-43-webpackdllplugin" href="#43-webpackdllplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>4.3 使用webpack.DllPlugin</h2>
+<p>在windows操作系统中，动态链接库（dll）是一种很常见的思想。一个dll包，就是一个很纯净的库，它本身不能运行，是用来给你的app或者业务代码引用的。</p>
+<p>同样的 Webpack最近也新加入了这个功能：<code>webpack.DllPlugin</code>。<br />
+使用这个功能需要把打包过程分成两步：<br />
+- 打包dll包<br />
+- 引用dll包，打包业务代码</p>
+<p>配置 dll.config.js:<br />
+<pre><code class="js">const path = require('path');
+const webpack = require('webpack');
+
+const vendors = [
+    'react',
+    'react-dom',
+    // ...其它库
+];
+
+module.exports = {
+    output: {
+        path: path.resolve(__dirname, './public'),
+        filename: '[name].js',
+        library: '[name]',
+    },
+    entry: {
+        &quot;lib&quot;: vendors,
+    },
+    plugins: [
+        new webpack.DllPlugin({
+            path: 'manifest.json',
+            name: '[name]',
+            context: __dirname,
+        }),
+    ],
+};
+</code></pre><br />
+webpack.DllPlugin 的选项中：<br />
+- path 是 manifest.json 文件的输出路径，这个文件会用于后续的业务代码打包；<br />
+- name 是dll暴露的对象名，要跟 output.library 保持一致；<br />
+- context 是解析包路径的上下文，这个要跟接下来配置的 webpack.config.js 一致。</p>
+<p>配置package.json:<br />
+<pre><code class="js">&quot;dll&quot;: &quot;webpack --config ./dll.config.js&quot;
+</code></pre><br />
+运行：<br />
+<pre><code class="js">npm run dll
+</code></pre><br />
+生成 lib.js 和 manifest,json。</p>
+<p>接下来打包webpack.config.js:<br />
+<pre><code class="js">const webpack = require('webpack');
+
+module.exports = {
+    devtool: 'eval-source-map',
+    // externals: {
+    //  'react': 'window.React',
+    //  'react-dom': 'window.ReactDOM'
+    // },
+    entry: __dirname + &quot;/app/main.js&quot;,
+    output: {
+        path: __dirname + &quot;/public&quot;,
+        filename: &quot;bundle.js&quot;
+    },
+
+    module: {
+        loaders: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader'
+        }]
+    },
+
+    plugins: [
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('./manifest.json'),
+        })
+    ],
+
+    devServer: {} // Omitted for brevity
 }
 </code></pre><br />
-<pre><code class="js">render() {
-    return &lt;CustomButton color={null} /&gt; ; // props.color will remain null
+webpack.DllReferencePlugin 的选项中：<br />
+- context 需要跟之前保持一致，这个用来指导 Webpack 匹配 manifest 中库的路径<br />
+- manifest 用来引入刚才输出的 manifest.json 文件</p>
+<p>然后，在页面中引用lib.js和bundle.js就可以了。</p>
+<p>其实还有一个速度的优化点，就是配置babel，让它排除一些文件，当loader这些文件时不进行转换，自动跳过；可在.babelrc文件中配置，示例：<br />
+<pre><code class="js">{
+    &quot;presets&quot;: ['es2015', 'react'],
+    &quot;ignore&quot;:[
+        &quot;jquery.js&quot;,
+        &quot;jquery.min.js&quot;,
+        &quot;angular.js&quot;,
+        &quot;angular.min.js&quot;,
+        &quot;bootstrap.js&quot;,
+        &quot;bootstrap.min.js&quot;
+    ]
 }
 </code></pre></p>
-<h2 id="instance-properties"><a name="user-content-instance-properties" href="#instance-properties" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Instance Properties</h2>
-<h4 id="props"><a name="user-content-props" href="#props" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>props</h4>
-<h4 id="state"><a name="user-content-state" href="#state" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>state</h4></article></body></html>
+<p>最后，运行<code>webpack --watch</code>，然后，我们就可以静静地写业务逻辑代码了。。。</p>
+<p>参考链接：<a href="http://blog.csdn.net/fengyinchao/article/details/52100357"><a href="http://blog.csdn.net/fengyinchao/article/details/52100357"><a href="http://blog.csdn.net/fengyinchao/article/details/52100357">http://blog.csdn.net/fengyinchao/article/details/52100357</a></a></a></p></article></body></html>

@@ -30,7 +30,7 @@ npm install --save-dev webpack
 ```
 
 ### 2.2 创建项目结构
-[](https://github.com/Marco2333/react-demo/tree/master/demo/demo00/1.png)
+[](https://github.com/Marco2333/react-demo/blob/master/demo/demo00/1.png)
 
 index.html
 ```html
@@ -71,12 +71,12 @@ webpack {entry file/入口文件} {destination for bundled file/存放bundle.js�
 ```
 只需要指定一个入口文件，webpack将自动识别项目所依赖的其它文件。
 ```js
-//webpack非全局安装的情况
-//linux
+// webpack非全局安装的情况
+// linux
 ./node_modules/.bin/webpack app/main.js public/bundle.js
-//windows
+// windows
 .\\node_modules\\.bin\\webpack app/main.js public/bundle.js
-//webpack全局安装的情况
+// webpack全局安装的情况
 webpack app/main.js public/bundle.js
 ```
 
@@ -94,12 +94,12 @@ module.exports = {
 ```
 在命令行中运行：
 ```js
-//webpack非全局安装的情况
-//linux
+// webpack非全局安装的情况
+// linux
 ./node_modules/.bin/webpack
-//windows
+// windows
 .\\node_modules\\.bin\\webpack
-//webpack全局安装的情况
+// webpack全局安装的情况
 webpack
 ```
 
@@ -107,7 +107,7 @@ webpack
 如果没有全局安装webpack，直接运行./node_modules/.bin/webpack是比较麻烦并且容易出错的，我们可以通过npm引导任务执行，对其进行配置之后，可以使用`npm start`命令来代替这些命令。
 ```js
 "scripts": {
-    "start": "webpack" // 相当于把npm的start命令指向webpack命令
+    "start": "webpack" // 相当于把 npm 的 start 命令指向 webpack 命令
 }
 ```
 package.json中的脚本部分已经默认在命令前添加了./node_modules/.bin路径，所以无论是全局还是局部安装的Webpack，都不需要写前面那指明详细的路径了。
@@ -117,12 +117,10 @@ package.json中的脚本部分已经默认在命令前添加了./node_modules/.b
 ### 3.1 生成Source Maps
 开发总是离不开调试，如果可以更加方便的调试当然就能提高开发效率，不过打包后的文件有时候不容易找到出错的地方对应的源代码位置，Source Maps就是来解决这个问题的。
 在webpack的配置文件中配置source maps，需要配置devtool，它有以下四种不同的配置选项：
-| devtool | 配置结果 |
-|---------|----------|
-|source-map|在一个单独的文件中产生一个完整且功能完全的文件。这个文件具有最好的source map，但是它会减慢打包文件的构建速度；|
-|cheap-module-source-map|在一个单独的文件中生成一个不带列映射的map，不带列映射提高项目构建速度，但是也使得浏览器开发者工具只能对应到具体的行，不能对应到具体的列（符号），会对调试造成不便；|
-|eval-source-map|使用eval打包源文件模块，在同一个文件中生成干净的完整的source map。这个选项可以在不影响构建速度的前提下生成完整的sourcemap，但是对打包后输出的JS文件的执行具有性能和安全的隐患。不过在开发阶段这是一个非常好的选项，但是在生产阶段一定不要用这个选项；|
-|cheap-module-eval-source-map|这是在打包文件时最快的生成source map的方法，生成的Source Map 会和打包后的JavaScript文件同行显示，没有列映射，和eval-source-map选项具有相似的缺点；|
+- source-map: 在一个单独的文件中产生一个完整且功能完全的文件。这个文件具有最好的source map，但是它会减慢打包文件的构建速度；
+- cheap-module-source-map: 在一个单独的文件中生成一个不带列映射的map，不带列映射提高项目构建速度，但是也使得浏览器开发者工具只能对应到具体的行，不能对应到具体的列（符号），会对调试造成不便
+- eval-source-map: 使用eval打包源文件模块，在同一个文件中生成干净的完整的source map。这个选项可以在不影响构建速度的前提下生成完整的sourcemap，但是对打包后输出的JS文件的执行具有性能和安全的隐患。不过在开发阶段这是一个非常好的选项，但是在生产阶段一定不要用这个选项
+- cheap-module-eval-source-map: 这是在打包文件时最快的生成source map的方法，生成的Source Map 会和打包后的JavaScript文件同行显示，没有列映射，和eval-source-map选项具有相似的缺点；
 ```js
 module.exports = {
     devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
@@ -141,10 +139,10 @@ npm install --save-dev webpack-dev-server
 ```
 
 配置选项：
-- contentBase：默认webpack-dev-server会为根文件夹提供本地服务器，如果想为另外一个目录下的文件提供本地服务器，应该在这里设置其所在目录（本例设置到“public"目录）
-- port：设置默认监听端口，如果省略，默认为“8080”
-- inline：设置为true，当源文件改变时会自动刷新页面
-- historyApiFallback：在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
+- contentBase: 默认webpack-dev-server会为根文件夹提供本地服务器，如果想为另外一个目录下的文件提供本地服务器，应该在这里设置其所在目录（本例设置到“public"目录）
+- port: 设置默认监听端口，如果省略，默认为“8080”
+- inline: 设置为true，当源文件改变时会自动刷新页面
+- historyApiFallback: 在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
 
 启动server：
 ```js
@@ -163,10 +161,10 @@ npm run server
 ### 3.3 Loaders
 Loaders是webpack中最激动人心的功能之一了。使用不同的loader，webpack通过调用外部脚本或者工具可以对不同格式的文件进行处理。
 Loaders需要单独安装并且需要在webpack.config.js下的modules关键字下进行配置，Loaders的配置选项包括以下几方面：
-- test：一个匹配loaders所处理的文件的拓展名的正则表达式（必须）
-- loader：loader的名称（必须）
+- test: 一个匹配loaders所处理的文件的拓展名的正则表达式（必须）
+- loader: loader的名称（必须）
 - include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）；
-- query：为loaders提供额外的设置选项（可选）
+- query: 为loaders提供额外的设置选项（可选）
 
 #### 3.3.1 babel
 Babel其实是一个编译JavaScript的平台，它的强大之处表现在可以通过编译帮你达到以下目的：
@@ -213,7 +211,7 @@ module.exports = {
 npm install --save react react-dom
 ```
 
-s使用ES6的语法，更新Greeter.js：
+使用ES6的语法，更新Greeter.js：
 ```jsx
 //Greeter,js
 import React, {Component} from 'react'
@@ -238,7 +236,7 @@ import Greeter from './Greeter';
 render(<Greeter />, document.getElementById('root'));
 ```
 
-** Babel的配置选项 **
+**Babel的配置选项**
 因为babel有非常多的配置选项,在单一的webpack.config.js文件中进行配置往往使得这个文件显得太复杂，因此一些开发者支持把babel的配置选项放在一个单独的名为 ".babelrc" 的配置文件中。因此现在我们就提取出相关部分，分两个配置文件进行配置（webpack会自动调用.babelrc里的babel配置选项）。
 ```js
 // webpack.config.js
@@ -271,7 +269,7 @@ module.exports = {
 ```
 
 #### 3.3.2 CSS
-** 一切皆模块 **
+**一切皆模块**
 webpack将所有的文件都当做模块处理，包括JavaScript、css、fonts、图片等，只要通过合适的loaders，它们都可以被当做模块来处理。
 
 webpack提供两个工具处理样式表，css-loader 和 style-loader，二者处理的任务不同，css-loader使你能够使用类似@import 和 url(...)的方法实现 require()的功能，style-loader将所有的计算后的样式加入页面中，二者组合在一起使你能够把样式表嵌入webpack打包后的JS文件中。
@@ -338,10 +336,10 @@ h1, h2, h3, h4, h5, h6, p, ul {
 import './main.css';//使用require导入css文件
 ```
 
-# 四、解决webpack打包慢的问题
+## 四、解决webpack打包慢的问题
 每次修改代码，gulp或者webpack检测到都会重新打包。但是，大多数情况下，需要重新打包的只有业务代码，其余的第三方库是不需要重新打包的，它们的存在只会减慢打包性能，所以我们需要优化打包过程。
 
-## 4.1 配置external
+### 4.1 配置external
 ```js
 module.exports = {
     externals: {
@@ -353,11 +351,11 @@ module.exports = {
 ```
 这样react和react-dom就不需要打包了，不过需要提前加载react.min.js和react-dom.min.js，让全局中存在React和ReactDOM变量。
 
-** 配置external **的缺陷
+**配置external**的缺陷
 - 如果我们依赖的一些没有设置到externals中的模块依赖了已经设置到externals中的模块，被依赖的模块依然会重新打包
 - 有些模块或库没有提供类似 ***.min.js 文件
 
-## 4.2手工打包module，设置externals
+### 4.2手工打包module，设置externals
 创建lib-bundle.js文件
 ```js
 window.__LIB["react"] = require("react");
@@ -382,7 +380,7 @@ module.exports = {
 };
 ```
 
-## 4.3 使用webpack.DllPlugin
+### 4.3 使用webpack.DllPlugin
 在windows操作系统中，动态链接库（dll）是一种很常见的思想。一个dll包，就是一个很纯净的库，它本身不能运行，是用来给你的app或者业务代码引用的。
 
 同样的 Webpack最近也新加入了这个功能：`webpack.DllPlugin`。
@@ -424,7 +422,7 @@ webpack.DllPlugin 的选项中：
 - name 是dll暴露的对象名，要跟 output.library 保持一致；
 - context 是解析包路径的上下文，这个要跟接下来配置的 webpack.config.js 一致。
 
-配置package.json:
+配置 package.json :
 ```js
 "dll": "webpack --config ./dll.config.js"
 ```
@@ -489,7 +487,8 @@ webpack.DllReferencePlugin 的选项中：
 }
 ```
 
-最后，运行`webpack --watch`，然后，我们就可以静静地写业务逻辑代码了。。。
+最后，运行`webpack --watch`，然后，我们就可以静静地写业务逻辑代码了 。。。
 
-参考链接：[http://blog.csdn.net/fengyinchao/article/details/52100357](http://blog.csdn.net/fengyinchao/article/details/52100357)
+参考链接：
+[http://blog.csdn.net/fengyinchao/article/details/52100357](http://blog.csdn.net/fengyinchao/article/details/52100357)
 [http://www.jianshu.com/p/42e11515c10f](http://www.jianshu.com/p/42e11515c10f)

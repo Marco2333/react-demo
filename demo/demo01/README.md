@@ -3,7 +3,14 @@
 
 ## 使用JavaScript创建React对象
 
-### React.createElement(type, props, children)
+### React.createElement(type, props, [children ...])
+```js
+ReactElement createElement(
+    string/ReactClass type,
+    [object props],
+    [children ...]
+)
+```
 
 #### type参数
 必须为一个字符串或者是一个ReactClass

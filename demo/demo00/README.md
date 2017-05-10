@@ -30,7 +30,7 @@ npm install --save-dev webpack
 ```
 
 ### 2.2 创建项目结构
-[](https://github.com/Marco2333/react-demo/blob/master/demo/demo00/1.png)
+![](https://github.com/Marco2333/react-demo/blob/master/demo/demo00/1.png)
 
 index.html
 ```html

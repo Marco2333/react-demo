@@ -4,7 +4,7 @@ JSX可以看做JavaScript的拓展，看起来有点像XML。使用React，可�
 ## Why JSX
 我们可以直接使用原生js开发，而不需要使用JSX。但是React作者强烈建议我们使用JSX，因为JSX在定义类似HTML这种树形结构时，十分简单明了。简明的代码结构更利于开发和维护。XML有着开闭标签，在构建复杂的树形结构时，比函数调用和对象字面量更加容易读懂。
 ```jsx
-#使用JSX
+//使用JSX
 React.render(
     <div>
         <div>content</div>
@@ -12,7 +12,7 @@ React.render(
     document.getElementById('example')
 );
 
-#不使用JSX
+//不使用JSX
 React.render(
     React.createElement('div', null,
         React.createElement('div', null, 'content')
@@ -25,11 +25,11 @@ React.render(
 ### JSX 到JavaScript的转化
 JSX将类似XML的语法转化到原生的JavaScript，元素的标签、属性和子元素都会被当作参数传给React.createElement函数：
 ```jsx
-#JSX
+//JSX
 var Nav;
 var app = <Nav color="blue" />;
 
-#native JS
+//native JS
 var Nav;
 var app = React.createElement(Nav, {color:"blue"});
 ```

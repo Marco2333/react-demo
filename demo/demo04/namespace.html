@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="react-root"></div>
+	<script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+	<script src="../build/browser.min.js"></script>
+	<script type="text/babel">
+		var MysearchPage=React.createClass({
+			render:function(){
+			    return (
+			        <div>
+			        	{this.props.children}
+			        </div>
+			    );
+			}
+		});
+		MysearchPage.Title=React.createClass({
+			render:function(){
+			    return (
+			         <h1>MysearchPage!</h1>
+			    );
+			}
+		});
+		MysearchPage.Search= React.createClass({
+			render:function(){
+			    return (
+			        <div>
+			            {this.props.searchType}:<input type="text"/>
+			            <button>Search</button>
+			        </div>
+			    );
+			}
+		});
+		var SearchPage=MysearchPage;
+
+		var App=(
+			<SearchPage>
+			   <SearchPage.Title />
+			   <SearchPage.Search searchType="Content"/>
+			</SearchPage>
+		);
+		ReactDOM.render(
+			App,
+			document.getElementById('react-root')
+		);
+	</script>
+</body>
+</html>

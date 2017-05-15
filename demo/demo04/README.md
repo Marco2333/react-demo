@@ -22,6 +22,11 @@ React.render(
 ```
 
 ## 基本用法
+### 命名
+**文件名**：使用大驼峰法，例如`MyComponent.js`；
+**组件命名**：组件命名和文件名一致，如`MyComponent.js`里的组件名应该是`MyComponent`;一个目录的根组件使用index.js命名，以目录名称作为组件名称；
+**引用命名**：React 组件使用大驼峰命名法，HTML 标签、组件实例使用小驼峰命名法；
+
 ### JSX 到JavaScript的转化
 JSX将类似XML的语法转化到原生的JavaScript，元素的标签、属性和子元素都会被当作参数传给React.createElement函数：
 ```jsx
@@ -34,11 +39,43 @@ var Nav;
 var app = React.createElement(Nav, {color:"blue"});
 ```
 
+### 命名空间组件
+如果一个组件有许多关联的子组件，那么可以以该组件作为命名空间编写、调用子组件。
+```jsx
+ var MyFormComponent = React.createClass({ ... });
+
+ MyFormComponent.Row = React.createClass({ ... });
+ MyFormComponent.Label = React.createClass({ ... });
+ MyFormComponent.Input = React.createClass({ ... });
+
+ var Form = MyFormComponent;
+
+ var App = (
+   <Form>
+     <Form.Row>
+       <Form.Label />
+       <Form.Input />
+     </Form.Row>
+   </Form>
+ );
+ ```
+ ```js
+ var App = (
+    React.createElement(Form, null,
+        React.createElement(Form.Row, null,
+            React.createElement(Form.Label, null),
+            React.createElement(Form.Input, null)
+        )
+    )
+);
+```
+
 ### 属性表达式
 如果想在属性中使用JavaScript表达式，用 {} 来包裹表达式，使用 "" 会被当成字符串。
 ```jsx
 // Input (JSX):
 var person = <Person name={window.isLoggedIn ? window.name : ''} />;
+
 // Output (JS):
 var person = React.createElement(
   Person,
@@ -63,6 +100,7 @@ var person = React.createElement(
 ```jsx
 // Input (JSX):
 var content = <Container>{window.isLoggedIn ? <Nav /> : <Login />}</Container>;
+
 // Output (JS):
 var content = React.createElement(
   Container,
@@ -141,11 +179,13 @@ React.render(
 页面会直接输出：<strong>content</strong>
 
 解决方案：
+
 **直接使用Unicode字符**
 ```jsx
 <div>{'First \u00b7 Second'}</div>
 ```
 **更安全的选择**
+
 使用代表该html实体的Unicode数字编码值来获得对应的字符串：
 ```jsx
 <div>{'First ' + String.fromCharCode(183) + ' Second'}</div>
@@ -156,6 +196,7 @@ React.render(
 <div>{['First ', <span key="middot">&middot;</span>, ' Second']}</div>
 ```
 **insert raw HTML**
+
 下下策：插入原生HTML
 ```jsx
 <div dangerouslySetInnerHTML={{__html: 'First &middot; Second'}} />

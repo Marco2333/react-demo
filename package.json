@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Marco2333/react-demo#readme",
   "dependencies": {
+    "jquery": "^3.2.1",
     "react": "^15.5.4",
     "reactify": "^1.1.1"
   },
@@ -24,6 +25,7 @@
     "babel-core": "^6.24.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
-    "gulp-react": "^3.1.0"
+    "gulp-react": "^3.1.0",
+    "mock": "^0.1.1"
   }
 }

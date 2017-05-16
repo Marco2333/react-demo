@@ -1,0 +1,22 @@
+{
+  "name": "mock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dll": "webpack --config ./dll.config.js"
+  },
+  "author": "Marco",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "mockjs": "^1.0.1-beta3",
+    "webpack": "^2.5.1"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1"
+  }
+}

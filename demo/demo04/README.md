@@ -23,9 +23,9 @@ React.render(
 
 ## 基本用法
 ### 命名
-**文件名**：使用大驼峰法，例如`MyComponent.js`；
-**组件命名**：组件命名和文件名一致，如`MyComponent.js`里的组件名应该是`MyComponent`;一个目录的根组件使用index.js命名，以目录名称作为组件名称；
-**引用命名**：React 组件使用大驼峰命名法，HTML 标签、组件实例使用小驼峰命名法；
+文件名：使用大驼峰法，例如`MyComponent.js`；
+组件命名：组件命名和文件名一致，如`MyComponent.js`里的组件名应该是`MyComponent`;一个目录的根组件使用index.js命名，以目录名称作为组件名称；
+引用命名：React 组件使用大驼峰命名法，HTML 标签、组件实例使用小驼峰命名法；
 
 ### JSX 到JavaScript的转化
 JSX将类似XML的语法转化到原生的JavaScript，元素的标签、属性和子元素都会被当作参数传给React.createElement函数：

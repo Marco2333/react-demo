@@ -1030,11 +1030,11 @@ ReactDOM.render(&lt;HelloComponent name=&quot;hehedan&quot; /&gt;, document.getE
 </code></pre>
 
 <p>无状态组件的特点：<br />
-    1.可读性好，并且减少了冗余代码，精简至只有一个render方法<br />
-    2.组件不会被实例化，不需要分配多余的内存,整体渲染性能提高<br />
-    3.组件不能访问this对象;无状态组件由于没有实例化过程，所以无法访问组件this中的对象<br />
-    4.组件无法访问生命周期的方法;因为无状态组件是不需要组件生命周期管理和状态管理，所以底层实现这种形式的组件时是不会实现组件的生命周期方法。<br />
-    5.组件只能访问输入的props，同样的props会得到同样的渲染结果，不会有副作用</p>
+    - 可读性好，并且减少了冗余代码，精简至只有一个render方法<br />
+    - 组件不会被实例化，不需要分配多余的内存,整体渲染性能提高<br />
+    - 组件不能访问this对象;无状态组件由于没有实例化过程，所以无法访问组件this中的对象<br />
+    - 组件无法访问生命周期的方法;因为无状态组件是不需要组件生命周期管理和状态管理，所以底层实现这种形式的组件时是不会实现组件的生命周期方法。<br />
+    - 组件只能访问输入的props，同样的props会得到同样的渲染结果，不会有副作用</p>
 <p>无状态组件被鼓励在大型项目中尽可能以简单的写法来分割原本庞大的组件，未来React也会在这种面向无状态组件在譬如无意义的检查和内存分配领域进行一系列优化，所以只要有可能，尽量使用无状态组件。</p>
 <h2 id="reactcreateclass"><a name="user-content-reactcreateclass" href="#reactcreateclass" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>React.createClass</h2>
 <p><code>React.createClass</code>是react刚开始推荐的创建组件的方式，这是ES5的原生的JavaScript来实现的React组件，其形式如下：</p>
@@ -1126,7 +1126,7 @@ InputControlES6.defaultProps = {
 </code></pre>
 
 <p>React.Component创建的组件，其成员函数不会自动绑定this，需要开发者手动绑定，否则this不能获取当前组件实例对象。</p>
-<pre><code class="js">class Contacts extends React.Component {  
+<pre><code class="jsx">class Contacts extends React.Component {  
     constructor(props) {
         super(props);
     }
@@ -1145,17 +1145,19 @@ InputControlES6.defaultProps = {
 - 在构造函数中完成绑定<br />
 - 调用时使用method.bind(this)来完成绑定<br />
 - 使用arrow function 来绑定</p>
-<pre><code class="js">constructor(props) {
+<pre><code class="jsx">constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this); //构造函数中绑定
 }
+
 &lt;div onClick={this.handleClick.bind(this)}&gt;&lt;/div&gt; //使用bind来绑定
+
 &lt;div onClick={()=&gt;this.handleClick()}&gt;&lt;/div&gt; //使用arrow function来绑定
 </code></pre>
 
 <h3 id="proptypespropsdefaultprops"><a name="user-content-proptypespropsdefaultprops" href="#proptypespropsdefaultprops" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>组件属性类型propTypes及其默认props属性defaultProps配置不同</h3>
-<p><code>React.createClass</code>在创建组件时，有关组件props的属性类型及组件默认的属性会作为组件实例的属性来配置;defaultProps是使用<code>getDefaultProps</code>方法来获取默认组件属性的<br />
-<pre><code class="js">const TodoItem = React.createClass({
+<p><code>React.createClass</code>在创建组件时，有关组件props的属性类型及组件默认的属性会作为组件实例的属性来配置;defaultProps是使用<code>getDefaultProps</code>方法来获取默认组件属性的</p>
+<pre><code class="jsx">const TodoItem = React.createClass({
     propTypes: { // as an object
         name: React.PropTypes.string
     },
@@ -1168,9 +1170,10 @@ InputControlES6.defaultProps = {
         return &lt;div&gt;&lt;/div&gt;
     }
 })
-</code></pre></p>
+</code></pre>
+
 <p>React.Component在创建组件时配置这两个对应信息时，他们是作为组件类的属性，不是组件实例的属性，也就是所谓的类的静态属性来配置的:</p>
-<pre><code class="js">class TodoItem extends React.Component {
+<pre><code class="jsx">class TodoItem extends React.Component {
     static propTypes = {//类的静态属性
         name: React.PropTypes.string
     };
@@ -1186,7 +1189,7 @@ InputControlES6.defaultProps = {
 <li><code>React.createClass</code>创建的组件，其状态state是通过<code>getInitState</code>方法方法来配置组件的相关状态</li>
 <li><code>React.Component</code>创建的组件，其状态state是在<code>construct</code>中像初始化组件属性一样声明</li>
 </ul>
-<pre><code class="js">const TodoItem = React.createClass({
+<pre><code class="jsx">const TodoItem = React.createClass({
     // return an object
     getInitialState(){ 
         return {
@@ -1213,9 +1216,9 @@ InputControlES6.defaultProps = {
 </code></pre>
 
 <h3 id="mixins"><a name="user-content-mixins" href="#mixins" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Mixins的支持不同</h3>
-<p>Mixins(混入)是面向对象编程OOP的一种实现，其作用是为了复用共有的代码，将共有的代码通过抽取为一个对象，然后通过Mixins进该对象来达到代码复用<br />
-<code>React.createClass</code>在创建组件时可以使用<code>mixins</code>属性，以数组的形式来混合类的集合。</p>
-<pre><code class="js">var SomeMixin = {  
+<p>Mixins(混入)是面向对象编程OOP的一种实现，其作用是为了复用共有的代码，将共有的代码通过抽取为一个对象，然后通过Mixins进该对象来达到代码复用</p>
+<p><code>React.createClass</code>在创建组件时可以使用<code>mixins</code>属性，以数组的形式来混合类的集合。</p>
+<pre><code class="jsx">var SomeMixin = {  
     doSomething() {
 
     }
@@ -1233,11 +1236,11 @@ const Contacts = React.createClass({
 });
 </code></pre>
 
-<p><code>React.Component</code>不支持Mixins</p>
+<p><code>React.Component</code>不支持Mixins,React开发者社区提供了一个全新的方式来取代Mixins,那就是Higher-Order Components</p>
 <h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>该选择哪种方式创建组件</h2>
 <p>由于React团队已经声明React.createClass最终会被React.Component的类形式所取代。但是在找到Mixins替代方案之前是不会废弃掉<code>React.createClass</code>形式。所以：<br />
-<code>能用React.Component创建的组件的就尽量不用React.createClass形式创建组件。</code><br />
-另外，创建组件的形式选择还应该根据以下准则来决定：<br />
+<code>能用React.Component创建的组件的就尽量不用React.createClass形式创建组件。</code></p>
+<p>另外，创建组件的形式选择还应该根据以下准则来决定：<br />
 <code>- 只要有可能，尽量使用无状态组件创建形式。
 - 否则（如需要state、生命周期方法等），使用</code>React.Component<code>这种es6形式创建组件</code></p>
 <p>参考地址：<a href="http://www.cnblogs.com/wonyun/p/5930333.html"><a href="http://www.cnblogs.com/wonyun/p/5930333.html"><a href="http://www.cnblogs.com/wonyun/p/5930333.html">http://www.cnblogs.com/wonyun/p/5930333.html</a></a></a></p></article></body></html>

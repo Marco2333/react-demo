@@ -1,5 +1,5 @@
 # JSX in React
-JSX可以看做JavaScript的拓展，看起来有点像XML。使用React，可以进行JSX语法到JavaScript的转换。
+JSX可以看做JavaScript的语法拓展（eXtension），看起来有点像XML，让我们可以在JavaScript中编写类似HTML的代码。 使用React，可以进行JSX语法到JavaScript的转换。
 
 ## Why JSX
 我们可以直接使用原生js开发，而不需要使用JSX。但是React作者强烈建议我们使用JSX，因为JSX在定义类似HTML这种树形结构时，十分简单明了。简明的代码结构更利于开发和维护。XML有着开闭标签，在构建复杂的树形结构时，比函数调用和对象字面量更加容易读懂。
@@ -22,6 +22,22 @@ React.render(
 ```
 
 ## 基本用法
+### JSX与HTML的不同之处
+- 在JSX中使用的“元素”不局限于HTML中的元素，可以是任何一个React组件
+- 判断一个元素是HTML元素还是React组件的原则是第一个字母是否大写，如果为大写，则认为是React组件，否则认为是HTML元素。如果我们自定义的组件首字母写成小写，那会得不到我想要的结果。
+- 在JSX中可以通过onClick这样的方式来给一个元素添加事件处理函数，在HTML我们还可以用onclick（onclick和onClick是不同的）来添加事件
+
+#### onclick和onClick
+onclick
+- onclick 添加的事件处理函数在全局环境中执行，污染全局环境，容易产生意想不到的后果
+- 给过多DOM添加类似onclick的事件，可能会影响网页性能
+- 对于使用类似onclick的DOM元素，如果要动态地从DOM树种删掉的话，需要把对应的事件处理器注销，否则可能会造成内存泄露，而一般情况下，这样的bug很难发现
+
+onClick
+- onClick挂载的函数，都控制在组件范围内，不会污染全局空间
+- 采用事件委托，而不是直接使用onclick，无论有多少个onClick，其实最后都只是在DOM树上添加了一个事件处理函数，挂载在最顶层的DOM节点上
+- 组件在unmount时React能够清除相关的事件处理函数，不会造成内存泄露
+
 ### 命名
 文件名：使用大驼峰法，例如`MyComponent.js`；
 组件命名：组件命名和文件名一致，如`MyComponent.js`里的组件名应该是`MyComponent`;一个目录的根组件使用index.js命名，以目录名称作为组件名称；

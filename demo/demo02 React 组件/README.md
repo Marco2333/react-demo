@@ -12,18 +12,18 @@
 
 ```jsx
 function HelloComponent(props) {
-    return <div> Hello {props.name} </div>;
+	return <div> Hello {props.name} </div>;
 }
 
-ReactDOM.render(<HelloComponent name="hehedan" />, document.getElementById('react-root')) 
+ReactDOM.render(<HelloComponent name="root" />, document.getElementById('react-root')) 
 ```
 
 无状态组件的特点：
-    - 可读性好，并且减少了冗余代码，精简至只有一个render方法
-    - 组件不会被实例化，不需要分配多余的内存,整体渲染性能提高
-    - 组件不能访问this对象;无状态组件由于没有实例化过程，所以无法访问组件this中的对象
-    - 组件无法访问生命周期的方法;因为无状态组件是不需要组件生命周期管理和状态管理，所以底层实现这种形式的组件时是不会实现组件的生命周期方法。
-    - 组件只能访问输入的props，同样的props会得到同样的渲染结果，不会有副作用
+	- 可读性好，并且减少了冗余代码，精简至只有一个render方法
+	- 组件不会被实例化，不需要分配多余的内存,整体渲染性能提高
+	- 组件不能访问this对象;无状态组件由于没有实例化过程，所以无法访问组件this中的对象
+	- 组件无法访问生命周期的方法;因为无状态组件是不需要组件生命周期管理和状态管理，所以底层实现这种形式的组件时是不会实现组件的生命周期方法。
+	- 组件只能访问输入的props，同样的props会得到同样的渲染结果，不会有副作用
 
 无状态组件被鼓励在大型项目中尽可能以简单的写法来分割原本庞大的组件，未来React也会在这种面向无状态组件在譬如无意义的检查和内存分配领域进行一系列优化，所以只要有可能，尽量使用无状态组件。
 
@@ -33,31 +33,31 @@ ReactDOM.render(<HelloComponent name="hehedan" />, document.getElementById('reac
 
 ```jsx
 var InputControlES5 = React.createClass({
-    propTypes: {//定义传入props中的属性各种类型
-        initialValue: React.PropTypes.string
-    },
-    defaultProps: { //组件默认的props对象
-        initialValue: ''
-    },
-    // 设置 initial state
-    getInitialState: function() {//组件相关的状态对象
-        return {
-            text: this.props.initialValue || 'placeholder'
-        };
-    },
-    handleChange: function(event) {
-        this.setState({ //this represents react component instance
-            text: event.target.value
-        });
-    },
-    render: function() {
-        return (
-            <div>
-                Type something:
-                <input onChange={this.handleChange} value={this.state.text} />
-            </div>
-        );
-    }
+	propTypes: {//定义传入props中的属性各种类型
+		initialValue: React.PropTypes.string
+	},
+	defaultProps: { //组件默认的props对象
+		initialValue: ''
+	},
+	// 设置 initial state
+	getInitialState: function() {//组件相关的状态对象
+		return {
+			text: this.props.initialValue || 'placeholder'
+		};
+	},
+	handleChange: function(event) {
+		this.setState({ //this represents react component instance
+			text: event.target.value
+		});
+	},
+	render: function() {
+		return (
+			<div>
+				Type something:
+				<input onChange={this.handleChange} value={this.state.text} />
+			</div>
+		);
+	}
 });
 ```
 
@@ -71,40 +71,40 @@ React.Component是以ES6的形式来创建react的组件的，是React目前极�
 
 ```jsx
 class InputControlES6 extends React.Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        // 设置 initial state
-        this.state = {
-            text: props.initialValue || 'placeholder'
-        };
+		// 设置 initial state
+		this.state = {
+			text: props.initialValue || 'placeholder'
+		};
 
-        // ES6 类中函数必须手动绑定
-        this.handleChange = this.handleChange.bind(this);
-    }
+		// ES6 类中函数必须手动绑定
+		this.handleChange = this.handleChange.bind(this);
+	}
 
-    handleChange(event) {
-        this.setState({
-            text: event.target.value
-        });
-    }
+	handleChange(event) {
+		this.setState({
+			text: event.target.value
+		});
+	}
 
-    render() {
-        return (
-            <div>
-                Type something:
-                <input onChange={this.handleChange}
-               value={this.state.text} />
-            </div>
-        );
-    }
+	render() {
+		return (
+			<div>
+				Type something:
+				<input onChange={this.handleChange}
+			   value={this.state.text} />
+			</div>
+		);
+	}
 }
 
 InputControlES6.propTypes = {
-    initialValue: React.PropTypes.string
+	initialValue: React.PropTypes.string
 };
 InputControlES6.defaultProps = {
-    initialValue: ''
+	initialValue: ''
 };
 ```
 
@@ -115,14 +115,14 @@ InputControlES6.defaultProps = {
 
 ```jsx
 const Contacts = React.createClass({  
-    handleClick() {
-        console.log(this); // React Component instance
-    },
-    render() {
-        return (
-            <div onClick={this.handleClick}></div>
-        );
-    }
+	handleClick() {
+		console.log(this); // React Component instance
+	},
+	render() {
+		return (
+			<div onClick={this.handleClick}></div>
+		);
+	}
 });
 ```
 
@@ -130,17 +130,17 @@ React.Component创建的组件，其成员函数不会自动绑定this，需要�
 
 ```jsx
 class Contacts extends React.Component {  
-    constructor(props) {
-        super(props);
-    }
-    handleClick() {
-        console.log(this); // null
-    }
-    render() {
-        return (
-          <div onClick={this.handleClick}></div>
-        );
-    }
+	constructor(props) {
+		super(props);
+	}
+	handleClick() {
+		console.log(this); // null
+	}
+	render() {
+		return (
+		  <div onClick={this.handleClick}></div>
+		);
+	}
 }
 ```
 
@@ -151,8 +151,8 @@ class Contacts extends React.Component {
 
 ```jsx
 constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this); //构造函数中绑定
+	super(props);
+	this.handleClick = this.handleClick.bind(this); //构造函数中绑定
 }
 
 <div onClick={this.handleClick.bind(this)}></div> //使用bind来绑定
@@ -160,23 +160,23 @@ constructor(props) {
 <div onClick={()=>this.handleClick()}></div> //使用arrow function来绑定
 ```
 
-### 组件属性类型propTypes及其默认props属性defaultProps配置不同
+### 组件属性类型 propTypes 及其默认 props 属性 defaultProps 配置不同
 
 `React.createClass`在创建组件时，有关组件props的属性类型及组件默认的属性会作为组件实例的属性来配置;defaultProps是使用`getDefaultProps`方法来获取默认组件属性的
 
 ```jsx
 const TodoItem = React.createClass({
-    propTypes: { // as an object
-        name: React.PropTypes.string
-    },
-    getDefaultProps(){   // return a object
-        return {
-            name: ''    
-        }
-    }
-    render(){
-        return <div></div>
-    }
+	propTypes: { // as an object
+		name: React.PropTypes.string
+	},
+	getDefaultProps(){   // return a object
+		return {
+			name: ''	
+		}
+	}
+	render(){
+		return <div></div>
+	}
 })
 ```
 
@@ -184,13 +184,13 @@ React.Component在创建组件时配置这两个对应信息时，他们是作�
 
 ```jsx
 class TodoItem extends React.Component {
-    static propTypes = {//类的静态属性
-        name: React.PropTypes.string
-    };
+	static propTypes = {//类的静态属性
+		name: React.PropTypes.string
+	};
 
-    static defaultProps = {//类的静态属性
-        name: ''
-    };
+	static defaultProps = {//类的静态属性
+		name: ''
+	};
 }
 ```
 
@@ -201,29 +201,29 @@ class TodoItem extends React.Component {
 
 ```jsx
 const TodoItem = React.createClass({
-    // return an object
-    getInitialState(){ 
-        return {
-            isEditing: false
-        }
-    }
-    render(){
-        return <div></div>
-    }
+	// return an object
+	getInitialState(){ 
+		return {
+			isEditing: false
+		}
+	}
+	render(){
+		return <div></div>
+	}
 })
 ```
 
 ```js
 class TodoItem extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = { // define this.state in constructor
-            isEditing: false
-        } 
-    }
-    render(){
-        return <div></div>
-    }
+	constructor(props){
+		super(props);
+		this.state = { // define this.state in constructor
+			isEditing: false
+		} 
+	}
+	render(){
+		return <div></div>
+	}
 }
 ```
 
@@ -234,20 +234,20 @@ Mixins(混入)是面向对象编程OOP的一种实现，其作用是为了复用
 
 ```jsx
 var SomeMixin = {  
-    doSomething() {
+	doSomething() {
 
-    }
+	}
 };
 const Contacts = React.createClass({  
-    mixins: [SomeMixin],
-    handleClick() {
-        this.doSomething(); // use mixin
-    },
-    render() {
-        return (
-            <div onClick={this.handleClick}></div>
-        );
-    }
+	mixins: [SomeMixin],
+	handleClick() {
+		this.doSomething(); // use mixin
+	},
+	render() {
+		return (
+			<div onClick={this.handleClick}></div>
+		);
+	}
 });
 ```
 

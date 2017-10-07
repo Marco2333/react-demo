@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="react-root"></div>
+	<script src="../build/react.js"></script>
+	<script src="../build/react-dom.js"></script>
+	<script src="../build/browser.min.js"></script>
+	<script type="text/babel">
+		// class ControlledForm extends React.Component {
+		// 	constructor(props) {
+		// 		super(props);
+		// 		this.state = {
+		// 			username: ''
+		// 		}
+		// 		this.handleSubmit = this.handleSubmit.bind(this);
+		// 		this.updateUsername = this.updateUsername.bind(this);
+		// 	}
+
+		// 	updateUsername(e) {
+		// 		this.setState({
+		// 			username: e.target.value,
+		// 		})
+		// 	}
+
+		// 	handleSubmit() {}
+
+		// 	render () {
+		// 		return (
+		// 			<form onSubmit={this.handleSubmit}>
+		// 				<input
+		// 					type='text'
+		// 					value={this.state.username}
+		// 					onChange={this.updateUsername} />
+		// 				<button type='submit'>Submit</button>
+		// 			</form>
+		// 		)
+		// 	}
+		// }
+		// ReactDOM.render(<ControlledForm />, document.getElementById('react-root'));
+		class UnControlledForm extends React.Component {
+			constructor(props) {
+				super(props);
+				this.handleSubmit = this.handleSubmit.bind(this);
+			}
+
+			handleSubmit(e) {
+				e.preventDefault();
+				console.log("Value: ", this.input.value)
+			}
+
+			render () {
+				return (
+					<form onSubmit={this.handleSubmit}>
+					<input
+						value={1} />
+					<button type='submit'>Submit</button>
+					</form>
+				)
+			}
+		}
+		ReactDOM.render(<UnControlledForm />, document.getElementById('react-root'));
+	</script>
+</body>
+</html>

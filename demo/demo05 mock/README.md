@@ -20,7 +20,7 @@ npm install --save-dev mockjs
 npm install --save jquery
 ```
 
-###配置模拟数据
+### 配置模拟数据
 ```js
 Mock.mock('http://123.com', {
     'name': "MarcoHan",

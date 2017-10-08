@@ -5,7 +5,7 @@
 - 卸载(Unmounting): 这个阶段发生在组件从DOM中被删除时
 
 ## 组件挂载阶段
-ES5(React.createClas)
+ES5(React.createClass)
 - `getInitialState()`
 - `componentWillMount()`
 - `render()`
@@ -17,7 +17,7 @@ ES6(React.Component)
 - `render()`
 - `componentDidMount()`
 
-## 组件更新阶段render(
+## 组件更新阶段
 - `componentWillReceiveProps()`
 - `shouldComponentUpdate()`
 - `componentWillUpdate()`
@@ -28,7 +28,7 @@ ES6(React.Component)
 - `componentWillUnmount()`
 
 ## 以一图以蔽之
-[](https://github.com/Marco2333/react-demo/tree/master/demo/demo03%20%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/1.png)
+![](https://github.com/Marco2333/react-demo/tree/master/demo/demo03%20%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/1.png)
 
 ## Reference
 
@@ -37,7 +37,7 @@ ES6(React.Component)
 constructor(props)
 ```
 
-在React组件被挂载之前，构造器constructor()首先被调用，由于继承了React.Componen，我们必须在其他语句之前首先调用`super(props)`；否则，在构造器中`this.props`的值为undefined，从而引发错误。
+在React组件被挂载之前，构造器constructor()首先被调用，由于继承了React.Component，我们必须在其他语句之前首先调用`super(props)`；否则，在构造器中`this.props`的值为undefined，从而引发错误。
 我们可以在构造器中完成初始化组件属性或者绑定方法的功能，如果不需要初始化属性或者绑定方法，则不需要定义构造器。
 ```js
 constructor(props) {
@@ -58,8 +58,8 @@ componentWillMount()
 ```js
 render()
 ```
-render()方法是必须的，并返回null、false或者一个React Element。
-当返回null或者false时，表示你不想渲染任何东西；并且，`ReactDOM.findDOMNode(this)`将会返回null。
+render()方法是必须的，并返回null、false 或者一个React Element。
+当返回 null 或者 false 时，表示你不想渲染任何东西；并且，`ReactDOM.findDOMNode(this)`将会返回null。
 `render()`应该是纯粹的（pure），它不应该修改组件的状态，每次调用 都会返回相同的结果，它不直接与浏览器交互。如果我们想与浏览器进行交互，我们应该在`componentDidMount()`方法中完成相应的功能。
 
 ### componentDidMount()
@@ -72,15 +72,15 @@ componentDidMount()将会在组件挂载之后被调用，在该方法中修改s
 ```js
 componentWillReceiveProps(nextProps)
 ```
-组件的props可以通过父辈组件来更改， componentWillReceiveProps()会在一个被挂载的组件接收到新属性的时候被调用，有的时候尽管没有属性发生改变，React依然会调用componentWillReceiveProps()，所以如果我们只想处理属性改变的情况，我们需要对比this.props和nextProps。
-在初始挂载的时候`componentWillReceiveProp`不会被调用，调用`this.setState`通常不会触发`componentWillReceiveProps`。
+组件的props可以通过父辈组件来更改， componentWillReceiveProps()会在一个被挂载的组件接收到新属性的时候被调用，有的时候尽管没有属性发生改变，React 依然会调用componentWillReceiveProps()，所以如果我们只想处理属性改变的情况，我们需要对比 this.props 和 nextProps 。
+在初始挂载的时候`componentWillReceiveProps`不会被调用，调用`this.setState`通常不会触发`componentWillReceiveProps`。
 
 ### shouldComponentUpdate()
 ```js
 shouldComponentUpdate(nextProps, nextState)
 ```
 默认情况下，在状态发生改变的时候，组件会重新渲染，在渲染之前，`shouldComponentUpdate()`将会被调用，默认返回`true`。在组件初始渲染或者调用`forceUpdate()`时，该方法不会被调用。
-如果`shouldComponentUpdate()`返回false，那么`componentWillUpdate()`、`render()` `componentDidUpdate()`将不会被调用，但是返回`false`不会影响子组件的重新渲染。
+如果`shouldComponentUpdate()`返回false，那么`componentWillUpdate()`、`render()`、`componentDidUpdate()`将不会被调用，但是返回`false`不会影响子组件的重新渲染。
 
 ### componentWillUpdate()
 ```js
@@ -105,7 +105,7 @@ componentWillUnmount()
 ```js
 setState(updater, [callback])
 ```
-`setState()`方法告知React该组件以及其子组件需要用新的状态来重新渲染。为了提高性能，React将setState设置为批次更新，即是异步操作函数，并不能以顺序控制流的方式设置某些事件。
+`setState()`方法告知React该组件以及其子组件需要用新的状态来重新渲染。为了提高性能，React将 setState 设置为批次更新，即是异步操作函数，并不能以顺序控制流的方式设置某些事件。
 
 #### 完成回调
 setState 函数的第二个参数允许传入回调函数，在状态更新完毕后进行调用。
@@ -120,7 +120,7 @@ this.setState({
 ```
 
 #### 传入状态计算函数
-除了使用回调函数的方式监听状态更新结果之外，React还允许我们传入某个状态计算函数而不是对象来作为第一个参数。状态计算函数能够为我们提供可信赖的组件的State与Props值，即会自动地将我们的状态更新操作添加到队列中并等待前面的更新完毕后传入最新的状态值：
+除了使用回调函数的方式监听状态更新结果之外，React还允许我们传入某个状态计算函数而不是对象来作为第一个参数。状态计算函数能够为我们提供可信赖的组件的State与Props值，即会自动地将我们的状态更新操作添加到队列中并等待前面的更新完毕后传入最新的状态值。
 以简单的计数器为例，我们希望用户点击按钮之后将计数值连加两次:
 ```js
 class Counter extends React.Component{

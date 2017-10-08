@@ -185,7 +185,7 @@ class StateTest1 extends React.Component {
 };
 ```
 #### setState干了什么
-[](https://github.com/Marco2333/react-demo/blob/master/demo/demo07%20setState/1.png)
+![](https://github.com/Marco2333/react-demo/blob/master/demo/demo07%20setState/1.png)
 
 上面这个流程图是一个简化的 setState 调用栈，其中核心的状态判断源代码如下：
 ```jsx

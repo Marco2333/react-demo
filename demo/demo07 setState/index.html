@@ -36,28 +36,8 @@
 					count: prevState.count + 1
 				}), () => {
 					console.log(this.state.count); // 2
-				});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+				});
 			}
-			
-			// shouldComponentUpdate(nextProps, nextState) {
-			// 	console.log(1);
-			// 	this.setState({
-			// 		count: this.state.count + 1
-			// 	});
-			// 	return true;
-			// }
-			
-			// componentWillUpdate(nextProps, nextState) {
-			// 	console.log(2);
-				
-			// }
-			
-			// componentDidUpdate(prevProps, prevState) {
-			// 	console.log(3);
-			// 	// this.setState({
-			// 	// 	count: this.state.count + 1
-			// 	// });
-			// }
 			
 			render () {
 				return (
@@ -101,7 +81,7 @@
 				return null;
 			}
 		};
-		ReactDOM.render(<StateTest1 />, document.getElementById('react-root'));
+		ReactDOM.render(<StateTest />, document.getElementById('react-root'));
 	</script>
 </body>
 </html>

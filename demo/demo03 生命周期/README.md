@@ -27,6 +27,9 @@ ES6(React.Component)
 ## 组件卸载阶段
 - `componentWillUnmount()`
 
+## 以一图以蔽之
+[](https://github.com/Marco2333/react-demo/tree/master/demo/demo03%20%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/1.png)
+
 ## Reference
 
 ### constructor()

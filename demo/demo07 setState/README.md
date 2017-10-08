@@ -86,7 +86,6 @@ class StateTest extends React.Component {
         });
     }
      
- 
     render () {
         return (
             <div></div>
@@ -131,12 +130,12 @@ class StateTest extends React.Component {
 - setState 并不总能有效地管理组件中的所有状态
 
 #### setState循环调用风险
-调用`setState`之后，shouldComponentUpdate、componentWillUpdate、render、componentDidUpdate 等生命周期函数会依次被调用（如果`shouldComponentUpdate`没有返回 false的话），如果我们在`componentWillUpdate`或`componentDidUpdate`中调用了`setState`方法，那么可能会造成循环调用，最终导致浏览器内存占满后崩溃。
+调用`setState`之后，shouldComponentUpdate、componentWillUpdate、render、componentDidUpdate 等生命周期函数会依次被调用（如果`shouldComponentUpdate`没有返回 false的话），如果我们在`render`、`componentWillUpdate`或`componentDidUpdate`中调用了`setState`方法，那么可能会造成循环调用，最终导致浏览器内存占满后崩溃。
 
 #### setState可能会引发不必要的渲染
 按照React的设计，setState 的调用会触发组件的重新渲染，但是很多时候重新渲染是没有必要的，不必要的重新渲染会造成性能损失。
 
-*可能造成不必要渲染的因素如下：* 
+##### 可能造成不必要渲染的因素如下： 
 - 新 state 和之前的一样。这种情况可以通过 shouldComponentUpdate 解决。
 - state 中的某些属性和视图没有关系（譬如事件、timer ID等），这些属性改变不影响视图的显示。
 
@@ -186,7 +185,7 @@ class StateTest1 extends React.Component {
 };
 ```
 #### setState干了什么
-[](https://github.com/Marco2333/react-demo/blob/master/demo/demo07/1.png)
+[](https://github.com/Marco2333/react-demo/blob/master/demo/demo07%20setState/1.png)
 
 上面这个流程图是一个简化的 setState 调用栈，其中核心的状态判断源代码如下：
 ```jsx
@@ -225,7 +224,7 @@ var batchingStrategy = {
 综上:`setState`并不总是异步执行的。当没有前置`batchedUpdate`时，`setState`中的新状态是会立刻生效的，而不是放到`dirtyComponents`中等待更新。
 
 ### 总结
-- *调用 setState 之后，React 会将传入的参数对象与组件当前的状态合并作为组件新的状态，然后触发调和过程。经过调和过程，React会以相对高效的方式根据新的状态构建新的 Virtual DOM，通过对比新旧虚拟DOM的差异，最小限度的修改DOM，更新UI。*
-- *然而， setState 更新状态并不能保证是同步的，在使用的时候需要注意，避免造成不必要的错误。同时，React也提供了同步更新的策略，在需要的时候，满足我们的需求。*
-- *需要注意的是，setState 并不总能有效的管理组件状态，因为一些与渲染无关的状态的更新会造成UI不必须要的渲染，我们的原则是，state 中只保存与UI相关的状态，而其他的可以存为实例属性。*
-- *另外，需要注意 setState 调用之后触发的触发周期函数，如果在这些函数中调用 setState，可能会造成循环调用，导致浏览器内存占满后崩溃。*
+- 调用 setState 之后，React 会将传入的参数对象与组件当前的状态合并作为组件新的状态，然后触发调和过程。经过调和过程，React会以相对高效的方式根据新的状态构建新的 Virtual DOM，通过对比新旧虚拟DOM的差异，最小限度的修改DOM，更新UI。
+- 然而， setState 更新状态并不能保证是同步的，在使用的时候需要注意，避免造成不必要的错误。同时，React也提供了同步更新的策略，在需要的时候，满足我们的需求。
+- 需要注意的是，setState 并不总能有效的管理组件状态，因为一些与渲染无关的状态的更新会造成UI不必须要的渲染，我们的原则是，state 中只保存与UI相关的状态，而其他的可以存为实例属性。
+- 另外，需要注意 setState 调用之后触发的触发周期函数，如果在这些函数中调用 setState，可能会造成循环调用，导致浏览器内存占满后崩溃。

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="react-root"></div>
+	<script src="../build/react.js"></script>
+	<script src="../build/react-dom.js"></script>
+	<script src="../build/browser.min.js"></script>
+	<script type="text/babel">
+		class StateTest extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					count: 0
+				}
+			}
+
+			componentDidMount() {
+				// this.setState({
+				// 	count: this.state.count + 1
+				// });
+
+				// this.setState({
+				// 	count: this.state.count + 1
+				// }, () => {
+				// 	console.log(this.state.count); // 1
+				// });
+				this.setState((prevState, props) => ({
+					count: prevState.count + 1
+				}));
+
+				this.setState((prevState, props) => ({
+					count: prevState.count + 1
+				}), () => {
+					console.log(this.state.count); // 2
+				});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+			}
+			
+			// shouldComponentUpdate(nextProps, nextState) {
+			// 	console.log(1);
+			// 	this.setState({
+			// 		count: this.state.count + 1
+			// 	});
+			// 	return true;
+			// }
+			
+			// componentWillUpdate(nextProps, nextState) {
+			// 	console.log(2);
+				
+			// }
+			
+			// componentDidUpdate(prevProps, prevState) {
+			// 	console.log(3);
+			// 	// this.setState({
+			// 	// 	count: this.state.count + 1
+			// 	// });
+			// }
+			
+			render () {
+				return (
+					<div></div>
+				)
+			}
+		}
+
+		class StateTest1 extends React.Component {
+			constructor() {
+				super();
+				this.state = {
+					count: 0
+				};
+			}
+
+			componentDidMount() {
+				this.setState({
+					count: this.state.count + 1
+				});
+				console.log(this.state.count);    // 0
+
+				this.setState({
+					count: this.state.count + 1
+				});
+				console.log(this.state.count);    // 0
+				setTimeout(() => {
+					this.setState({
+						count: this.state.count + 1
+					});
+					console.log(this.state.count);  // 2
+
+					this.setState({
+						count: this.state.count + 1
+					});
+					console.log(this.state.count);  // 3
+				}, 0);
+			}
+
+			render() {
+				return null;
+			}
+		};
+		ReactDOM.render(<StateTest1 />, document.getElementById('react-root'));
+	</script>
+</body>
+</html>

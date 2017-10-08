@@ -70,7 +70,7 @@ componentDidMount()将会在组件挂载之后被调用，在该方法中修改s
 componentWillReceiveProps(nextProps)
 ```
 组件的props可以通过父辈组件来更改， componentWillReceiveProps()会在一个被挂载的组件接收到新属性的时候被调用，有的时候尽管没有属性发生改变，React依然会调用componentWillReceiveProps()，所以如果我们只想处理属性改变的情况，我们需要对比this.props和nextProps。
-在初始挂载的时候`componentWillReceiveProp`不会被调用，调用`this.setState`通常不会触发`componentWillReceiveProp`。
+在初始挂载的时候`componentWillReceiveProp`不会被调用，调用`this.setState`通常不会触发`componentWillReceiveProps`。
 
 ### shouldComponentUpdate()
 ```js

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="react-root"></div>
+	<script src="../build/react.js"></script>
+	<script src="../build/react-dom.js"></script>
+	<script src="../build/browser.min.js"></script>
+	<script type="text/babel">
+		function removeUserProp(WrappedComponent) {
+			return class NewComponent extends React.Component {
+				render() {
+					const {user, ...otherProps} = this.props;
+					return <WrappedComponent {...otherProps} />
+				}
+			};
+		}
+	</script>
+</body>
+</html>

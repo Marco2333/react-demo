@@ -10,14 +10,80 @@
 	<script src="../build/react-dom.js"></script>
 	<script src="../build/browser.min.js"></script>
 	<script type="text/babel">
-		function removeUserProp(WrappedComponent) {
-			return class NewComponent extends React.Component {
+		// function removeUserProp(WrappedComponent) {
+		// 	return class NewComponent extends React.Component {
+		// 		render() {
+		// 			const {user, ...otherProps} = this.props;
+		// 			return <WrappedComponent {...otherProps} />
+		// 		}
+		// 	};
+		// }
+
+		// function Test(props) {
+		// 	return (
+		// 		<div>
+		// 			{props.user}
+		// 		</div>
+		// 	)
+		// }
+
+		// const refsHOC = (WrappedComponent) => {
+		// 	return class HOCComponent extends React.Component {
+		// 		constructor() {
+		// 			super(...arguments);
+
+		// 			this.linkRef = this.linkRef.bind(this);
+		// 		}
+
+		// 		linkRef(wrappedInstance) {
+		// 			this._root = wrappedInstance;
+		// 			console.log(this._root);
+		// 		}
+
+		// 		render() {
+		// 			const props = {...this.props, ref: this.linkRef};
+					
+		// 			return <WrappedComponent {...props} />;
+		// 		}
+		// 	};
+		// };
+
+		// class HOCTest extends React.Component {
+		// 	render() {
+		// 		return (
+		// 			<div>
+		// 				<p>123</p>
+		// 				<p>456</p>
+		// 			</div>
+		// 		)
+		// 	}
+		// }
+		
+		const styleHOC = (WrappedComponent, style) => {
+			return class HOCComponent extends React.Component {
 				render() {
-					const {user, ...otherProps} = this.props;
-					return <WrappedComponent {...otherProps} />
+					return (
+						<div style={style}>
+						<WrappedComponent {...this.props}/>
+						</div>
+					);
 				}
 			};
-		}
+		};
+		
+		class StyleTest extends React.Component {
+			render() {
+				return (
+					<div>
+						<p>123</p>
+					</div>
+				)
+			}
+		};
+
+		let NewComponent = styleHOC(StyleTest, {fontSize: 30, color: 'red'});
+
+		ReactDOM.render(<NewComponent />, document.getElementById('react-root'));
 	</script>
 </body>
 </html>

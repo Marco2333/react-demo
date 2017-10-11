@@ -66,7 +66,7 @@ render()方法是必须的，并返回null、false 或者一个React Element。
 ```js
 componentDidMount()
 ```
-componentDidMount()将会在组件挂载之后被调用，在该方法中修改state将会触发重新渲染。可以在该方法中加载远程数据，然后根据新的数据渲染DOM。
+componentDidMount()将会在组件挂载之后被调用，在该方法中修改state将会触发重新渲染。可以在该方法中加载远程数据，然后根据新的数据重新渲染DOM。该方法不会在服务端被渲染过程中调用。该方法被调用时，已经渲染出真实的 DOM，可以再该方法中通过`this.getDOMNode()`访问到真实的 DOM(推荐使用 ReactDOM.findDOMNode())。
 
 ### componentWillReceiveProps()
 ```js

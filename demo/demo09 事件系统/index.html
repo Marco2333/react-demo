@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="react-root"></div>
+	<script src="../build/react.js"></script>
+	<script src="../build/react-dom.js"></script>
+	<script src="../build/browser.min.js"></script>
+	<script type="text/babel">
+		const styleHOC = (WrappedComponent, style) => {
+			return class HOCComponent extends React.Component {
+				render() {
+					return (
+						<div style={style}>
+						<WrappedComponent {...this.props}/>
+						</div>
+					);
+				}
+			};
+		};
+		
+		class StyleTest extends React.Component {
+			render() {
+				return (
+					<div>
+						<p>123</p>
+					</div>
+				)
+			}
+		};
+
+		let NewComponent = styleHOC(StyleTest, {fontSize: 30, color: 'red'});
+
+		ReactDOM.render(<NewComponent />, document.getElementById('react-root'));
+	</script>
+</body>
+</html>

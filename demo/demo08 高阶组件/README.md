@@ -236,7 +236,7 @@ function connect(mapStateToProps = doNothing, mapDispatchToProps = doNothing) {
 ```
 
 #### 包装组件
-除了操纵 `props`、`state`、`ref`等，我们还可以通过高阶组件在render函数中引入其它元素，甚至组合多个React组件。
+除了操纵`props`、`state`、`ref`等，我们还可以通过高阶组件在render函数中引入其它元素，甚至组合多个React组件。
 
 ```jsx
 const styleHOC = (WrappedComponent, style) => {
@@ -296,7 +296,7 @@ function removeUserProp(WrappedComponent) {
 继承方式操纵props比较复杂，除了高阶组件需要根据参数组件渲染结果来决定如何修改props这种情况，不建议使用。
 
 #### 操纵state
-因为继承方式返回的新组件可以操作`WrappedComponent`实例的state，但是随意修改参数组件的state，可能会造成意想不到的错误。
+因为继承方式返回的新组件可以操作`WrappedComponent`实例的state，但是随意修改参数组件的state，可能会造成意想不到的错误，不建议使用。
 
 ```jsx
 function debugState(WrappedComponent) {
@@ -360,7 +360,7 @@ HOCComponent.displayName = `Connect(${getDisplayName(WrappedComponent)})`;
 
 
 ### 以函数为子组件
-高阶组件可以实现代码重用，在不损害原组件的情况下修改组件的功能。但是，高阶组件也有局限性。它固化了对参数组件的要求。如果一个高阶组件要作用域某个组件，那么这个组件就必须能够接受高阶组件传过来的`props`，如果组件不支持高阶组件传过来的props，或者props的命名方式或使用方式不同，那么就没办法应用高阶组件作用于此组件。
+高阶组件可以实现代码重用，在不损害原组件的情况下修改组件的功能。但是，高阶组件也有局限性。它固化了对参数组件的要求。如果一个高阶组件要作用于某个组件，那么这个组件就必须能够接受高阶组件传过来的`props`，如果组件不支持高阶组件传过来的props，或者props的命名方式或使用方式不同，那么就没办法应用高阶组件作用于此组件。
 
 “以函数为子组件”的模式就是为了克服这种局限性而产生的。这种模式下，实现代码重用的是一个真正的React组件，而不是一个函数，并且该组件要求子组件必须为一个函数。该组件的`render`函数会直接把`this.props.children`当做函数来调用。
 
@@ -396,7 +396,7 @@ AddUserProp.propTypes = {
 <AddUserProp/>
 ```
 
-实例CountDown
+实例CountDown: 
 ```jsx
 class CountDown extends React.Component {
 

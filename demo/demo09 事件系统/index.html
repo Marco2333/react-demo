@@ -5,36 +5,129 @@
 	<title>Document</title>
 </head>
 <body>
+	<!-- <a href="https://www.baidu.com" onclick="console.log('额...'); return false">
+		点我1
+	</a> -->
 	<div id="react-root"></div>
 	<script src="../build/react.js"></script>
 	<script src="../build/react-dom.js"></script>
 	<script src="../build/browser.min.js"></script>
 	<script type="text/babel">
-		const styleHOC = (WrappedComponent, style) => {
-			return class HOCComponent extends React.Component {
-				render() {
-					return (
-						<div style={style}>
-						<WrappedComponent {...this.props}/>
-						</div>
-					);
-				}
-			};
-		};
-		
-		class StyleTest extends React.Component {
+		class EventTest extends React.Component {
+			constructor(props) {
+				super(props);
+				this.handleClick = this.handleClick.bind(this);
+				this.handleParentClick = this.handleParentClick.bind(this);
+			}
+
+			componentDidMount() {
+				this.button.addEventListener('click', function(e) {
+					// e.stopPropagation();
+					// e.preventDefault();
+					console.log(3);
+				});
+
+				this.parent.addEventListener('click', function(e) {
+					console.log(4);
+				})
+			}
+			
+
+			handleClick(e) {
+				console.log(1);
+				e.stopPropagation();
+				// e.nativeEvent.stopPropagation();
+				// e.preventDefault();
+			}
+
+			handleParentClick(e) {
+				console.log(2);
+			}
+
 			render() {
 				return (
-					<div>
-						<p>123</p>
+					<div onClick={this.handleParentClick}
+						ref={(parent) => {this.parent = parent}}
+						style={{width: 300, height: 300, background: "red", textAlign: "center"}} 
+						>
+						<button onClick={this.handleClick}
+							style={{width: 80, height: 30, background: "green"}} 
+							ref={(button) => {this.button = button}}>点我</button>
 					</div>
 				)
 			}
-		};
+		}
 
-		let NewComponent = styleHOC(StyleTest, {fontSize: 30, color: 'red'});
 
-		ReactDOM.render(<NewComponent />, document.getElementById('react-root'));
+		function MyLink() {
+			function handleClick(e) {
+				e.preventDefault();
+				console.log('额...');
+			}
+		
+			return (
+				<a href="https://www.baidu.com" onClick={handleClick}>
+					点我
+				</a>
+			);
+		}
+
+
+		class Binding extends React.Component {
+			constructor(props) {
+				super(props);
+			
+				// This binding is necessary to make `this` work in the callback
+				this.handleClick = this.handleClick.bind(this);
+			}
+
+			handleClick() {
+				// 绑定之后才能获取正确的this的值
+				console.log(this); // 不绑定则为null
+				console.log(123);
+			}
+
+			render() {
+				return (
+					<button onClick={this.handleClick}>
+						点我
+					</button>
+				);
+			}
+		}
+
+		class Binding1 extends React.Component {
+			handleClick() {
+				// 绑定之后才能获取正确的this的值
+				console.log(this);
+				console.log(123);
+			}
+		
+			render() {
+				return (
+					<button onClick={this.handleClick.bind(this)}>
+						点我
+					</button>
+				);
+			}
+		}
+
+		class Binding2 extends React.Component {
+			handleClick() {
+				console.log(this);
+				console.log(123);
+			}
+
+			render() {
+				return (
+					<button onClick={(e) => this.handleClick(e)}>
+						点我
+					</button>
+				);
+			}
+		}
+
+		ReactDOM.render(<Binding2 />, document.getElementById('react-root'));
 	</script>
 </body>
 </html>

@@ -2,7 +2,8 @@
 
 ### 简介
 
-原生DOM事件体系存在很多问题，譬如各浏览器之间存在差异、容易引起内存浪费、性能低下、JS操作DOM效率低等。为了解决这些问题，React实现了一套比较高效的事件合成系统，包括事件注册、存储、分发、重用等功能。
+原生DOM事件体系存在很多问题，譬如各浏览器之间存在差异、容易造成内存浪费、性能低下、JS操作DOM效率低等。为了解决这些问题，React实现了一套比较高效的事件合成系统，包括事件注册、存储、分发、重用等功能。
+
 与原生DOM事件体系相比，React事件合成系统有如下特点：
 - 事件委托技术
 - 事件冒泡机制
@@ -13,10 +14,124 @@
 在React组件上声明的事件最终都转化为原生事件并绑定到`document`上，而不是React组件对应的`DOM节点`。所以只有document节点绑定了原生事件。这样简化了事件体系，减少了内存开销。
 
 #### 事件冒泡机制
-原生DOM事件体系`“DOM2级事件”`规定的事件流包括三个阶段: 事件捕获阶段、处于目标阶段和事件冒泡阶段。而React自身实现了一套事件冒泡机制，以队列的方式，从触发事件的组件向父组件回溯，调用在组件上绑定的事件处理函数。
+原生DOM事件体系`“DOM2级事件”`规定的事件流包括三个阶段: 事件捕获阶段、处于目标阶段和事件冒泡阶段。而React自身实现了一套事件冒泡机制，以队列的方式，从触发事件的组件向父组件回溯，调用在组件上绑定的事件处理函数。调用`event.stopPropagation()`可以阻止React事件体系中的冒泡行为，但是不能阻止原生事件的冒泡。相反，如果阻止了原生事件中的冒泡行为，React合成事件中的冒泡行为也会被阻止。
+
+```jsx
+class EventTest extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleClick = this.handleClick.bind(this);
+		this.handleParentClick = this.handleParentClick.bind(this);
+	}
+
+	componentDidMount() {
+		this.button.addEventListener('click', function(e) {
+			e.stopPropagation(); // 调用原生事件的stopPropagation，只能输出 3
+			console.log(3); // 3
+		});
+
+		this.parent.addEventListener('click', function(e) {
+			console.log(4); // 没有输出
+		})
+	}
+
+	handleClick(e) {
+		console.log(1); // 没有输出
+	}
+
+	handleParentClick(e) {
+		console.log(2); // 没有输出
+	}
+
+	render() {
+		return (
+			<div onClick={this.handleParentClick}
+				ref={(parent) => {this.parent = parent}}
+				style={{width: 300, height: 300, background: "red", textAlign: "center"}} 
+				>
+				<button onClick={this.handleClick}
+					style={{width: 80, height: 30, background: "green"}} 
+					ref={(button) => {this.button = button}}>点我</button>
+			</div>
+		)
+	}
+}
+
+ReactDOM.render(<EventTest />, document.getElementById('react-root'));
+```
+输出：3
+
+```jsx
+componentDidMount() {
+	this.button.addEventListener('click', function(e) {
+		console.log(3); // 3
+	});
+
+	this.parent.addEventListener('click', function(e) {
+		console.log(4); // 4
+	})
+}
+
+handleClick(e) {
+	console.log(1); // 1
+}
+
+handleParentClick(e) {
+	console.log(2); // 2
+}
+```
+输出： 3 4 1 2
+
+```jsx
+componentDidMount() {
+	this.button.addEventListener('click', function(e) {
+		console.log(3); // 3
+		// e.preventDefault(); // 调用 preventDefault() 不影响事件冒泡
+	});
+
+	this.parent.addEventListener('click', function(e) {
+		console.log(4); // 4
+	})
+}
+
+
+handleClick(e) {
+	// e.preventDefault(); // 调用 preventDefault() 不影响事件冒泡
+	e.stopPropagation();
+	console.log(1); // 1
+}
+
+handleParentClick(e) {
+	console.log(2); // 没有输出
+}
+```
+输出： 3 4 1
+
+```jsx
+componentDidMount() {
+	this.button.addEventListener('click', function(e) {
+		console.log(3); // 3 早于handleClick、handleParentClick调用
+	});
+
+	this.parent.addEventListener('click', function(e) {
+		console.log(4); // 4 早于handleClick、handleParentClick调用
+	})
+}
+
+handleClick(e) {
+	console.log(1); // 1
+	e.nativeEvent.stopPropagation();
+}
+
+handleParentClick(e) {
+	console.log(2); // 2
+}
+```
+输出： 3 4 1 2
+
 
 #### 合成事件
-React在原生`event`基础上做了一层跨浏览器的封装 -- `SyntheticEvent(合成事件)`，`SyntheticEvent`与原生`event`拥有相同的接口，包括stopPropagation()和preventDefault()。在组件上定义的事件处理函数将会被传入SyntheticEvent的实例。我们可以通过`nativeEvent`属性来访问原生的浏览器event对象。
+React在原生`event`基础上做了一层跨浏览器的封装 -- `SyntheticEvent(合成事件)`，`SyntheticEvent`与原生`event`拥有相同的接口，包括stopPropagation()和preventDefault()。在组件上定义的事件处理函数将会被传入`SyntheticEvent`的实例。我们可以通过`nativeEvent`属性来访问原生的浏览器event对象。
 
 #### 事件池
 React使用对象池来管理合成事件对象的创建和销毁，这样减少了垃圾的生成和新对象内存的分配，大大提高了性能。
@@ -46,7 +161,7 @@ React使用对象池来管理合成事件对象的创建和销毁，这样减少
 
 function MyLink() {
 	function handleClick(e) {
-		e.preventDefault();
+		e.preventDefault();  // 阻止跳转
 		console.log('额...');
 	}
 
@@ -58,7 +173,9 @@ function MyLink() {
 }
 ```
 
-以ES6的方式定义组件，通常需要在构造函数中进行`this`绑定:
+### 事件处理函数中的this绑定
+
+以ES6的类方式继承`React.Component`定义组件，其成员函数不会自动绑定`this`，需要开发者手动绑定，否则在成员函数中不能通过`this`获取当前组件实例对象:
 
 ```jsx
 class Binding extends React.Component {
@@ -71,6 +188,7 @@ class Binding extends React.Component {
 
 	handleClick() {
 		// 绑定之后才能获取正确的this的值
+		console.log(this); // 不绑定则为null
 		console.log(123);
 	}
 
@@ -89,6 +207,7 @@ class Binding extends React.Component {
 ```jsx
 class Binding extends React.Component {
 	handleClick = () => {
+		console.log(this);
 		console.log(123);
 	}
 
@@ -102,11 +221,34 @@ class Binding extends React.Component {
 }
 ```
 
+箭头函数没有 this 绑定，意味着箭头函数内部的 this 值只能通过查找作用域链来确定。
+
 也可以这样：
 
 ```jsx
 class Binding extends React.Component {
 	handleClick() {
+		// 绑定之后才能获取正确的this的值
+		console.log(this);
+		console.log(123);
+	}
+
+	render() {
+		return (
+			<button onClick={this.handleClick.bind(this)}>
+				点我
+			</button>
+		);
+	}
+}
+```
+
+
+或者这样：
+```jsx
+class Binding extends React.Component {
+	handleClick() {
+		console.log(this);
 		console.log(123);
 	}
 
@@ -120,6 +262,236 @@ class Binding extends React.Component {
 }
 ```
 缺点是每次渲染都会重新创建回调函数，造成浪费。
+
+
+### SyntheticEvent
+`SyntheticEvent`有如下属性：
+
+```jsx
+boolean bubbles
+boolean cancelable
+DOMEventTarget currentTarget
+boolean defaultPrevented
+number eventPhase
+boolean isTrusted
+DOMEvent nativeEvent
+void preventDefault()
+boolean isDefaultPrevented()
+void stopPropagation()
+boolean isPropagationStopped()
+DOMEventTarget target
+number timeStamp
+string type
+```
+
+> Note:
+> As of v0.14, returning false from an event handler will no longer stop event propagation. Instead, e.stopPropagation() or e.preventDefault() should be triggered manually, as appropriate.
+
+### Event Pooling
+React使用对象池来管理合成事件对象的创建和销毁，这样`SyntheticEvent`可以被重用。当回调函数被调用之后，`SyntheticEvent`的属性会被置为`null`。所以我不能以同步的方式来获取`event`。
+
+```jsx
+function onClick(event) {
+	console.log(event); // => nullified object.
+	console.log(event.type); // => "click"
+	const eventType = event.type; // => "click"
+
+	setTimeout(function() {
+		console.log(event.type); // => null
+		console.log(eventType); // => "click"
+	}, 0);
+
+	// Won't work. this.state.clickEvent will only contain null values.
+	this.setState({clickEvent: event});
+
+	// You can still export event properties.
+	this.setState({eventType: event.type});
+}
+```
+
+如果我们想以同步的方式获取event对象，需要调用`event.persist()`，合成事件将会从事件池中移除。我们可以保留合成事件对象的引用就可以以同步的方式访问event对象。
+
+
+### 支持的事件
+React标准化了事件对象，使之拥有一致的接口。事件处理函数会在冒泡阶段被依次调用。如果想在捕获阶段触发事件处理函数，需要为事件函数添加`Capture`前缀。譬如：`onClick` => `onCaptureClick`。
+
+#### Clipboard Events
+```jsx
+onCopy onCut onPaste
+```
+
+属性
+```jsx
+DOMDataTransfer clipboardData
+```
+
+#### Composition Events
+```jsx
+onCompositionEnd onCompositionStart onCompositionUpdate
+```
+
+属性
+```jsx
+string data
+```
+
+#### Keyboard Events
+```jsx
+onKeyDown onKeyPress onKeyUp
+```
+
+属性
+```jsx
+boolean altKey
+number charCode
+boolean ctrlKey
+boolean getModifierState(key)
+string key
+number keyCode
+string locale
+number location
+boolean metaKey
+boolean repeat
+boolean shiftKey
+number which
+```
+
+#### Focus Events
+```jsx
+onFocus onBlur
+```
+
+属性
+```jsx
+DOMEventTarget relatedTarget
+```
+
+#### Form Events
+```jsx
+onChange onInput onInvalid onSubmit
+```
+
+
+#### Mouse Events
+```jsx
+onClick onContextMenu onDoubleClick onDrag onDragEnd onDragEnter onDragExit
+onDragLeave onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave
+onMouseMove onMouseOut onMouseOver onMouseUp
+```
+
+`onMouseEnter`和`onMouseLeave`事件从离开的元素到进入的元素传播而不是普通的冒泡方式，并且不存在捕获阶段。
+
+属性
+```jsx
+boolean altKey
+number button
+number buttons
+number clientX
+number clientY
+boolean ctrlKey
+boolean getModifierState(key)
+boolean metaKey
+number pageX
+number pageY
+DOMEventTarget relatedTarget
+number screenX
+number screenY
+boolean shiftKey
+```
+
+#### Selection Events
+```jsx
+onSelect
+```
+
+
+#### Touch Events
+```jsx
+onTouchCancel onTouchEnd onTouchMove onTouchStart
+```
+
+属性
+```jsx
+boolean altKey
+DOMTouchList changedTouches
+boolean ctrlKey
+boolean getModifierState(key)
+boolean metaKey
+boolean shiftKey
+DOMTouchList targetTouches
+DOMTouchList touches
+```
+
+#### UI Events
+```jsx
+onScroll
+```
+
+属性
+```jsx
+number detail
+DOMAbstractView view
+```
+
+
+#### Wheel Events
+```jsx
+onWheel
+```
+
+属性
+```jsx
+number deltaMode
+number deltaX
+number deltaY
+number deltaZ
+```
+
+#### Media Events
+```jsx
+onAbort onCanPlay onCanPlayThrough onDurationChange onEmptied onEncrypted
+onEnded onError onLoadedData onLoadedMetadata onLoadStart onPause onPlay
+onPlaying onProgress onRateChange onSeeked onSeeking onStalled onSuspend
+onTimeUpdate onVolumeChange onWaiting
+```
+
+
+#### Image Events
+```jsx
+onLoad onError
+```
+
+
+#### Animation Events
+```jsx
+onAnimationStart onAnimationEnd onAnimationIteration
+```
+
+属性
+```jsx
+string animationName
+string pseudoElement
+float elapsedTime
+```
+
+
+#### Transition Events
+```jsx
+onTransitionEnd
+```
+
+属性
+```jsx
+string propertyName
+string pseudoElement
+float elapsedTime
+```
+
+
+#### Other Events
+```jsx
+onToggle
+```
 
 
 ### React事件系统
@@ -191,19 +563,19 @@ render() {
 
 ```jsx
 _updateDOMProperties: function (lastProps, nextProps, transaction) {
-    //...  前面代码太长，省略一部分
-    else if (registrationNameModules.hasOwnProperty(propKey)) {
-        // 如果是props这个对象直接声明的属性，而不是从原型链中继承而来的，则处理它
-        // nextProp表示要创建或者更新的属性，而lastProp则表示上一次的属性
-        // 对于mountComponent，lastProp为null。updateComponent二者都不为null。unmountComponent则nextProp为null
-        if (nextProp) {
-          // mountComponent和updateComponent中，enqueuePutListener注册事件
-          enqueuePutListener(this, propKey, nextProp, transaction);
-        } else if (lastProp) {
-          // unmountComponent中，删除注册的listener，防止内存泄漏
-          deleteListener(this, propKey);
-        }
-    }
+	//...  前面代码太长，省略一部分
+	else if (registrationNameModules.hasOwnProperty(propKey)) {
+		// 如果是props这个对象直接声明的属性，而不是从原型链中继承而来的，则处理它
+		// nextProp表示要创建或者更新的属性，而lastProp则表示上一次的属性
+		// 对于mountComponent，lastProp为null。updateComponent二者都不为null。unmountComponent则nextProp为null
+		if (nextProp) {
+			// mountComponent和updateComponent中，enqueuePutListener注册事件
+			enqueuePutListener(this, propKey, nextProp, transaction);
+		} else if (lastProp) {
+			// unmountComponent中，删除注册的listener，防止内存泄漏
+			deleteListener(this, propKey);
+		}
+	}
 }
 ```
 
@@ -598,8 +970,12 @@ function invokeGuardedCallback(name, func, a) {
 		}
 	}
 }
+```
 
 流程图如下：
 ![](https://github.com/Marco2333/react-demo/blob/master/demo/images/demo09_2.png)
 
+
 源码分析部分转自[这里](https://zhuanlan.zhihu.com/p/25883536)
+
+reference: [React中文网](https://reactjs.org/docs/events.html)

@@ -126,7 +126,7 @@ const Contacts = React.createClass({
 });
 ```
 
-React.Component创建的组件，其成员函数不会自动绑定this，需要开发者手动绑定，否则this不能获取当前组件实例对象。
+React.Component创建的组件，其成员函数不会自动绑定this，需要开发者手动绑定，否则将它作为事件处理函数被调用时不能通过`this`获取当前组件实例对象。
 
 ```jsx
 class Contacts extends React.Component {  
@@ -215,20 +215,21 @@ const TodoItem = React.createClass({
 
 ```js
 class TodoItem extends React.Component{
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = { // define this.state in constructor
 			isEditing: false
 		} 
 	}
-	render(){
+
+	render() {
 		return <div></div>
 	}
 }
 ```
 
 ### Mixins的支持不同
-Mixins(混入)是面向对象编程OOP的一种实现，其作用是为了复用共有的代码，将共有的代码通过抽取为一个对象，然后通过Mixins进该对象来达到代码复用
+`Mixins`(混入)是面向对象编程OOP的一种实现，其作用是为了复用共有的代码，将共有的代码通过抽取为一个对象，然后通过Mixins进该对象来达到代码复用
 
 `React.createClass`在创建组件时可以使用`mixins`属性，以数组的形式来混合类的集合。
 
@@ -251,7 +252,7 @@ const Contacts = React.createClass({
 });
 ```
 
-`React.Component`不支持Mixins,React开发者社区提供了一个全新的方式来取代Mixins,那就是Higher-Order Components
+`React.Component`不支持Mixins,React开发者社区提供了一个全新的方式来取代Mixins，那就是Higher-Order Components(高阶组件)
 
 ## 该选择哪种方式创建组件
 由于React团队已经声明React.createClass最终会被React.Component的类形式所取代。但是在找到Mixins替代方案之前是不会废弃掉`React.createClass`形式。所以：

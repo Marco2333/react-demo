@@ -76,9 +76,8 @@
 		class Binding extends React.Component {
 			constructor(props) {
 				super(props);
-			
 				// This binding is necessary to make `this` work in the callback
-				this.handleClick = this.handleClick.bind(this);
+				// this.handleClick = this.handleClick.bind(this);
 			}
 
 			handleClick() {
@@ -87,6 +86,10 @@
 				console.log(123);
 			}
 
+			// componentDidMount() {
+			// 	this.handleClick();
+			// }
+			
 			render() {
 				return (
 					<button onClick={this.handleClick}>
@@ -127,7 +130,47 @@
 			}
 		}
 
-		ReactDOM.render(<Binding2 />, document.getElementById('react-root'));
+		// let a = new Binding();
+		// console.log(a.handleClick());
+
+		class EventPooling extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {};
+				this.onClick = this.onClick.bind(this);
+			}
+
+			onClick(event) {
+				// event.persist();
+				console.log(event); // => SyntheticEvent.
+				console.log(event.type); // => "click"
+				const eventType = event.type; // => "click"
+	
+				setTimeout(function() {
+					console.log(event.type); // => null
+					console.log(eventType); // => "click"
+				}, 0);
+	
+				// Won't work. this.state.clickEvent will only contain null values.
+				this.setState({clickEvent: event});
+	
+				// You can still export event properties.
+				this.setState({eventType: event.type});
+			}
+
+			render() {
+				console.log(this.state.clickEvent); // nullified object.(更新阶段完毕后)
+				console.log(this.state.eventType); // click (更新阶段完毕后)
+
+				return (
+					<button onClick={this.onClick}>
+						点我
+					</button>
+				);
+			}
+		}
+		
+		ReactDOM.render(<EventPooling />, document.getElementById('react-root'));
 	</script>
 </body>
 </html>

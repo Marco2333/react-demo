@@ -314,7 +314,7 @@ function wrap(){
 }
 var x = new wrap();
 ```
-父作用域中this.a的值为2.
+父作用域中`this.a`的值为2。
 
 
 ### SyntheticEvent
@@ -1060,6 +1060,6 @@ function invokeGuardedCallback(name, func, a) {
 ![](https://github.com/Marco2333/react-demo/blob/master/demo/images/demo09_2.png)
 
 
-源码分析部分转自[这里](https://zhuanlan.zhihu.com/p/25883536)
+React事件体系源码分析部分转自[这里](https://zhuanlan.zhihu.com/p/25883536)
 
 Reference: [React中文网](https://reactjs.org/docs/events.html)

@@ -147,3 +147,152 @@ new: <div style={{fontWeight: 'bold'}} />
 
 React并不会直接在开始插入Item组件实例，而是依次对比每个Item组件，将text为1的组件实例改为text为3，将text为2的组件实例改为text为1，然后创建一个新的Item组件实例插入到最后。
 这里理想情况下只需要一次插入操作，却引发了两个Item的更新，当Item实例增多的时候，会造成极大的浪费。所以需要开发者通过key属性来辅助React实现更加高效的更新操作。
+
+#### key的用法
+key是一个字符串，用来唯一标识同一层级的兄弟元素。在React作新旧虚拟DOM树diff时，如果新树中某个子元素有key属性，那么React会比较相同层级的旧树中是否存在相同key的元素，如果存在则复用该元素来提高效率。
+
+通常在React元素中包含数量或顺序不确定的多个子元素(例如，从数组中的数据map返回的多个元素)时，我们需要为每个子元素添加key属性来帮助React识别哪个元素改变了、添加了或者删除了。
+
+```jsx
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =>
+    <li key={number.toString()}>
+        {number}
+    </li>
+);
+```
+
+key属性应该是稳定的并且在它的兄弟元素中是唯一的，譬如我们可以将数据中的id属性作为key属性的值：
+
+```jsx
+const todoItems = todos.map((todo) =>
+    <li key={todo.id}>
+        {todo.text}
+    </li>
+);
+```
+
+当没有稳定的标识属性作为key时，我们可以使用item的index作为key，但React非常不推荐这样做，因为数组中的元素可能会被reorder(index是不稳定的，可能会影响性能)：
+
+```jsx
+const todoItems = todos.map((todo, index) =>
+    // Only do this if items have no stable IDs
+    <li key={index}>
+       {todo.text}
+    </li>
+);
+```
+
+key在被数组环绕的上下文中才是有意义的：
+
+错误的用法：
+
+```jsx
+function ListItem(props) {
+    const value = props.value;
+    return (
+        // Wrong! There is no need to specify the key here:
+        <li key={value.toString()}>
+            {value}
+        </li>
+    );
+}
+
+function NumberList(props) {
+    const numbers = props.numbers;
+    const listItems = numbers.map((number) =>
+        // Wrong! The key should have been specified here:
+        <ListItem value={number} />
+    );
+    return (
+        <ul>
+            {listItems}
+        </ul>
+    );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+    <NumberList numbers={numbers} />,
+    document.getElementById('root')
+);
+```
+
+正确的用法：
+
+```jsx
+function ListItem(props) {
+    // Correct! There is no need to specify the key here:
+    return <li>{props.value}</li>;
+}
+
+function NumberList(props) {
+    const numbers = props.numbers;
+    const listItems = numbers.map((number) =>
+        // Correct! Key should be specified inside the array.
+        <ListItem key={number.toString()}
+                      value={number} />
+
+    );
+    return (
+        <ul>
+            {listItems}
+        </ul>
+    );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+    <NumberList numbers={numbers} />,
+    document.getElementById('root')
+);
+```
+
+元素的key属性在兄弟元素中必须是唯一的：
+
+```jsx
+function Blog(props) {
+    const sidebar = (
+        <ul>
+            {props.posts.map((post) =>
+                <li key={post.id}>
+                    {post.title}
+                </li>
+            )}
+        </ul>
+    );
+    const content = props.posts.map((post) =>
+        <div key={post.id}>
+            <h3>{post.title}</h3>
+            <p>{post.content}</p>
+        </div>
+    );
+    return (
+        <div>
+            {sidebar}
+            <hr />
+            {content}
+        </div>
+    );
+}
+
+const posts = [
+    {id: 1, title: 'Hello World', content: 'Welcome to learning React!'},
+    {id: 2, title: 'Installation', content: 'You can install React from npm.'}
+];
+ReactDOM.render(
+    <Blog posts={posts} />,
+    document.getElementById('root')
+);
+```
+
+key虽然是元素的属性，但是接受key的组件并不能读取到key的值，因为key和ref是React保留的两个特殊的prop，并没有预期让组件直接访问。所以如果在组件中需要相同的值，以其他属性传递给该组件：
+
+```jsx
+const content = posts.map((post) =>
+    <Post
+        key={post.id}
+        id={post.id}
+        title={post.title} />
+);
+```

@@ -1,4 +1,4 @@
-## 调和(reconciliation)
+## 调和(reconciliation) 与 key
 
 React最神奇的地方莫过于通过`Virtual DOM`和高效的`diff`算法来解决原生DOM操作的性能问题。`Virtual DOM`的基本原理是用纯JS对象模拟原生DOM树来提高性能；`diff`算法让我们能够以高效的方式来更新DOM。
 
@@ -148,8 +148,8 @@ new: <div style={{fontWeight: 'bold'}} />
 React并不会直接在开始插入Item组件实例，而是依次对比每个Item组件，将text为1的组件实例改为text为3，将text为2的组件实例改为text为1，然后创建一个新的Item组件实例插入到最后。
 这里理想情况下只需要一次插入操作，却引发了两个Item的更新，当Item实例增多的时候，会造成极大的浪费。所以需要开发者通过key属性来辅助React实现更加高效的更新操作。
 
-#### key的用法
-key是一个字符串，用来唯一标识同一层级的兄弟元素。在React作新旧虚拟DOM树diff时，如果新树中某个子元素有key属性，那么React会比较相同层级的旧树中是否存在相同key的元素，如果存在则复用该元素来提高效率。
+### key的用法
+key是一个字符串，用来唯一标识同一层级的兄弟元素。在React作新旧虚拟DOM树diff时，如果新树中某个子元素有key属性，那么React会比较相同层级的旧树中是否存在相同key的元素，如果存在则复用该元素以实现两棵树更加高效的转换。
 
 通常在React元素中包含数量或顺序不确定的多个子元素(例如，从数组中的数据map返回的多个元素)时，我们需要为每个子元素添加key属性来帮助React识别哪个元素改变了、添加了或者删除了。
 
@@ -162,7 +162,9 @@ const listItems = numbers.map((number) =>
 );
 ```
 
-key属性应该是稳定的并且在它的兄弟元素中是唯一的，譬如我们可以将数据中的id属性作为key属性的值：
+#### key属性应该是稳定的并且在它的兄弟元素中是唯一的
+
+例如，我们可以将数据中的id属性作为key属性的值：
 
 ```jsx
 const todoItems = todos.map((todo) =>
@@ -183,7 +185,7 @@ const todoItems = todos.map((todo, index) =>
 );
 ```
 
-key在被数组环绕的上下文中才是有意义的：
+#### key在被数组环绕的上下文中才有意义
 
 错误的用法：
 
@@ -248,7 +250,7 @@ ReactDOM.render(
 );
 ```
 
-元素的key属性在兄弟元素中必须是唯一的：
+#### 元素的key属性在兄弟元素中必须是唯一的，而不是全局中唯一
 
 ```jsx
 function Blog(props) {
@@ -296,3 +298,5 @@ const content = posts.map((post) =>
         title={post.title} />
 );
 ```
+
+Post组件中能够访问到props.id，但是不能访问到props.key。

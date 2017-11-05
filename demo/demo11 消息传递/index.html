@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="react-root"></div>
+	<script src="../build/react.js"></script>
+	<script src="../build/react-dom.js"></script>
+	<script src="../build/browser.min.js"></script>
+	<script type="text/babel">
+		// class Child extends React.Component {
+		// 	render() {
+		// 		console.log(this.props.value);  // 123
+		// 		return (
+		// 			<div>
+		// 				{this.props.value}
+		// 			</div>
+		// 		);
+		// 	}
+		// }
+
+		// class Parent extends React.Component {
+		// 	render() {
+		// 		return (
+		// 			<Child value="123" />
+		// 		);
+		// 	}
+		// }
+
+
+		// class Child extends React.Component {
+		// 	render() {
+		// 		console.log(this.props.value);
+		// 		return (
+		// 			<input onChange={this.props.handleChange}/>
+		// 		);
+		// 	}
+		// }
+
+		// class Parent extends React.Component {
+		// 	render() {
+		// 		return (
+		// 			<Child handleChange={(e) => {console.log(e.target.value)}} />
+		// 		);
+		// 	}
+		// }
+
+
+		class Panel extends React.Component {
+			render() {
+				console.log(this.props.value);
+				return (
+					<div>{this.props.value}</div>
+				);
+			}
+		}
+
+		class Input extends React.Component {
+			render() {
+				return (
+					<input onChange={this.props.handleChange}/>
+				);
+			}
+		}
+
+		class Parent extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					value: ''
+				}
+			}
+
+			render() {
+				return (
+					<div>
+						<Panel value={this.state.value} />
+						<Input handleChange={(e) => {this.setState({value: e.target.value})}} />
+					</div>
+				);
+			}
+		}
+		
+		ReactDOM.render(<Parent/>, document.getElementById('react-root'));
+	</script>
+</body>
+</html>

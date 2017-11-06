@@ -22,13 +22,9 @@
 
 ### [demo10 调和与key](https://github.com/Marco2333/react-demo/tree/master/demo/demo10%20%E8%B0%83%E5%92%8C%E4%B8%8Ekey)
 
-### demo11 React消息传递
+### [demo11 React消息传递](https://github.com/Marco2333/react-demo/tree/master/demo/demo11%20%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92)
 
-### demo12 React组件优化策略
-
-### demo13 单向数据流与双向数据流
-
-### demo14 Fiber
+### demo12 Fiber
 
 ### [已同步至 Marco的个人博客](http://hanyuehui.site)
 

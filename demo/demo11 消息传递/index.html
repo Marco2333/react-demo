@@ -9,6 +9,7 @@
 	<script src="../build/react.js"></script>
 	<script src="../build/react-dom.js"></script>
 	<script src="../build/browser.min.js"></script>
+	<script src="./eventproxy.js"></script>
 	<script type="text/babel">
 		// class Child extends React.Component {
 		// 	render() {
@@ -48,41 +49,134 @@
 		// }
 
 
-		class Panel extends React.Component {
+		// class Panel extends React.Component {
+		// 	render() {
+		// 		console.log(this.props.value);
+		// 		return (
+		// 			<div>{this.props.value}</div>
+		// 		);
+		// 	}
+		// }
+
+		// class Input extends React.Component {
+		// 	render() {
+		// 		return (
+		// 			<input onChange={this.props.handleChange}/>
+		// 		);
+		// 	}
+		// }
+
+		// class Parent extends React.Component {
+		// 	constructor(props) {
+		// 		super(props);
+		// 		this.state = {
+		// 			value: ''
+		// 		}
+		// 	}
+
+		// 	render() {
+		// 		return (
+		// 			<div>
+		// 				<Panel value={this.state.value} />
+		// 				<Input handleChange={(e) => {this.setState({value: e.target.value})}} />
+		// 			</div>
+		// 		);
+		// 	}
+		// }
+		// class Child extends React.Component {
+		// 	render() {
+		// 		return (
+		// 			<span>
+		// 				{this.context.VALUE}
+		// 			</span>
+		// 		)
+		// 	}
+		// }
+
+		// Child.contextTypes = {
+		// 	VALUE: React.PropTypes.number
+		// }
+
+		// const SubParent = (props) => {
+		// 	return (
+		// 		<div>
+		// 			<p>Title</p>
+		// 			{
+		// 				React.Children.map(props.children, (child) => {
+		// 					return (
+		// 						<li>
+		// 							{child}
+		// 						</li>
+		// 					)
+		// 				})
+		// 			}
+		// 		</div>
+		// 	)
+		// }
+
+		// class Parent extends React.Component {
+		// 	getChildContext() {
+		// 		return {
+		// 			VALUE: 123
+		// 		}
+		// 	}
+
+		// 	render() {
+		// 		return (
+		// 			<div>
+		// 				<SubParent>
+		// 					<Child />
+		// 					<Child />
+		// 				</SubParent>
+		// 			</div>
+		// 		);
+		// 	}
+		// }
+
+		// Parent.childContextTypes = {
+		// 	VALUE: React.PropTypes.number
+		// }
+		
+		const eventProxy = new EventProxy();
+
+		class Child1 extends React.Component {
 			render() {
-				console.log(this.props.value);
 				return (
-					<div>{this.props.value}</div>
+					<div>
+						<input onChange={(event) => {eventProxy.trigger('msg', event.target.value)}} />
+					</div>
 				);
 			}
 		}
 
-		class Input extends React.Component {
-			render() {
-				return (
-					<input onChange={this.props.handleChange}/>
-				);
-			}
-		}
-
-		class Parent extends React.Component {
+		class Child2 extends React.Component {
 			constructor(props) {
 				super(props);
 				this.state = {
-					value: ''
+					msg: ''
 				}
+			}
+			componentDidMount() {
+				// 订阅者，监听并接收消息
+				eventProxy.on('msg', (msg) => {this.setState({'msg': msg})});
 			}
 
 			render() {
 				return (
 					<div>
-						<Panel value={this.state.value} />
-						<Input handleChange={(e) => {this.setState({value: e.target.value})}} />
+						Message from Child1: {this.state.msg}
 					</div>
 				);
-			}
+			} 
 		}
-		
+
+		const Parent = () => (
+			<div>
+				<Child1 />
+				<Child2 />
+			</div>
+		)
+
 		ReactDOM.render(<Parent/>, document.getElementById('react-root'));
 	</script>
 </body>

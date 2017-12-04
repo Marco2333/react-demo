@@ -24,7 +24,7 @@
 
 ### [demo11 React消息传递](https://github.com/Marco2333/react-demo/tree/master/demo/demo11%20%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92)
 
-### demo12 Fiber
+### [demo12 Fiber](https://github.com/Marco2333/react-demo/tree/master/demo/demo13%20Fiber)
 
 ### [已同步至 Marco的个人博客](http://hanyuehui.site)
 

@@ -2,43 +2,25 @@
 
 ## 问题
 
-### Fiber的目标是什么
+### Fiber的目标
 
 > Increase its suitability for areas like animation, layout, and gestures.
 
-### React Fiber 是什么
+### React Fiber
 
 > React Fiber is a reimplementation of the React reconciler.
 
-### Fiber的特点是什么
+### Fiber的特点
 
-最大的特点：
 > Incremental rendering: the ability to split rendering work into chunks and spread it out over multiple frames.
 
-其他特点：
 > The ability to pause, abort, or reuse work as new updates come in; the ability to assign priority to different types of updates; and new concurrency primitives.
 
-### reconciler 是什么
+### reconciler
 
 > The reconciler is the part of React which contains the algorithm used to diff one tree with another to determine which parts need to be changed.
 
 关于调和(reconciliation) ，参考[这里](https://github.com/Marco2333/react-demo/tree/master/demo/demo10%20%E8%B0%83%E5%92%8C%E4%B8%8Ekey)。
-
-### 为什么重写reconciler
-
-主要原因：
-
-> The main thread is the same as the UI thread.
-
-
-### Fiber 引进了什么新的特性
-
-- 可以将渲染过程中可中断的部分划分为一个个chunk
-- 能够为渲染流程中的task设置不同的优先级
-- 新的返回数据类型：fragments and strings
-- 新的数据类型Portals：可以将subtree(子组件)直接渲染到DOM节点容器中
-- 更好的服务端渲染renderToNodeStream
-- Error Boundaries：能够提供清晰的错误信息，还能防止整个应用因错误而崩溃
 
 
 ## 定义
@@ -59,14 +41,14 @@ DOM只是React可以渲染的环境之一，除此之外还有通过React Native
 
 ## React Fiber Architecture
 
-### Fiber的目标是什么
+### Fiber的目标
 
 - 可以暂停work，之后再继续该work
 - 不同类型的work拥有不同的优先级
 - 能够重用之前已经完成的work
 - 如果work不再需要则可以终止它
 
-### React Fiber是什么
+### React Fiber
 
 > Fiber is a reimplementation of the stack, specialized for React components. You can think of a single fiber as a virtual stack frame.
 
@@ -79,11 +61,24 @@ Fiber将调和算法分成两个阶段：
 
 > If something is offscreen, we can delay any logic related to it. If data is arriving faster than the frame rate, we can coalesce and batch updates. We can prioritize work coming from user interactions (such as an animation caused by a button click) over less important background work (such as rendering new content just loaded from the network) to avoid dropping frames.
 
+### Fiber 引进的新特性
+
+- 可以将渲染过程中可中断的部分划分为一个个chunk
+- 能够为渲染流程中的task设置不同的优先级
+- 新的返回数据类型：fragments and strings
+- 新的数据类型Portals：可以将subtree(子组件)直接渲染到DOM节点容器中
+- 更好的服务端渲染renderToNodeStream
+- Error Boundaries：能够提供清晰的错误信息，还能防止整个应用因错误而崩溃
+
 ### 为什么重写reconciler(调和器)
+
+> The main thread is the same as the UI thread.
 
 渲染页面、响应用户操作、JS运行、处理网络活动、操作DOM都是由浏览器的主线程来处理的，虽然现在我们可以将部分操作安全地交给其他线程处理(`Web Worker`)，但是只有主线程可以操作DOM。
 
-在React应用中，当状态改变或者prop更新时，React会通过调和算法对比新旧DOM树之间的差异，用最高效的方式更新UI。调和算法是很高效的，其时间复杂度为O(n)，问题出在React的调度策略——`Stack Reconciler`(在React15.x及之前的版本中采用`Stack Reconciler`——栈调和器)，类似于函数调用栈，React会深度优先遍历所有的Virtual DOM节点进行diff，等整棵Virtual DOM树计算完成之后（栈为空）释放主线程。所以当浏览器主线程被更新状态任务占据时，浏览器无法处理其他可能出现的更加紧急的任务，例如此时用户与浏览器的任何交互都得不到反馈，只有任务结束之后才会突然得到浏览器的响应，这会造成非常不好的用户体验。
+在React应用中，当状态改变或者prop更新时，React会通过调和算法对比新旧DOM树之间的差异，用最高效的方式更新UI，调和算法是很高效的，其时间复杂度为O(n)。
+
+问题出在React的调度策略——`Stack Reconciler`(在React15.x及之前的版本中采用`Stack Reconciler`——栈调和器)，类似于函数调用栈，React会深度优先遍历所有的Virtual DOM节点进行diff，等整棵Virtual DOM树计算完成之后（栈为空）释放主线程。所以当浏览器主线程被更新状态任务占据时，浏览器无法处理其他可能出现的更加紧急的任务，例如此时用户与浏览器的任何交互都得不到反馈，只有任务结束之后才会突然得到浏览器的响应，这会造成非常不好的用户体验。
 
 Fiber可以很好地解决这个问题，`Fiber Reconciler`可以将可中断的work分割为chunks，并且能够为不同的任务赋予不同的优先级，这样主线程可以决定中断正在进行的diff算法，转而处理更加紧急的任务（譬如用户与UI的交互），稍后再继续之前中断的操作。
 
@@ -97,7 +92,7 @@ React的UI解决方案是：View = F(Data)，即通过数据渲染UI，页面中
 
 计算机通过函数调用栈来跟踪程序的执行，当一个函数被调用，新的栈帧被压入栈中，函数执行完成，对应的栈帧出栈。UI的渲染有类似的过程，但是浏览器UI渲染线程和JS线程是相同的，如果栈中的任务占用线程太久就会影响UI的渲染，譬如动画卡顿、用户交互得不到及时响应。
 
-Fiber就是为了解决这个问题，它定义了一个Virtual Stack(虚拟栈)，可以控制work的执行，包括中断、继续、终止等。一个fiber就是一个virtual stack frame(虚拟栈帧)，fiber === virtual stack frame。
+Fiber就是为了解决这个问题，它定义了一个Virtual Stack(虚拟栈)，可以控制work的执行，包括中断、继续、终止等。一个fiber就是一个virtual stack frame(虚拟栈帧)，即 fiber === virtual stack frame。
 
 通过虚拟栈，你可以将栈帧保存在内存中，随时可以执行或者弃用。
 
@@ -156,8 +151,8 @@ export type Fiber = {|
 
 #### `type`和`key`
 
-type描述了fiber对应的React组件。对于组合组件，其值为function或class组件本身；对于原生组件(div、span等)其值为该元素类型字符串；
-key用来在调和阶段标识fiber，以检测是否可重用该fiber实例；
+- type描述了fiber对应的React组件。对于组合组件，其值为function或class组件本身；对于原生组件(div、span等)其值为该元素类型字符串；
+- key用来在调和阶段标识fiber，以检测是否可重用该fiber实例；
 
 #### `child`和`sibling`
 
@@ -181,9 +176,9 @@ function Parent() {
 ```
 `child fibers`组成了一个单向链表，链表头为第一个child。这里，`Parent`的`child fiber`对应了`Child1`，`Child1`的`sibling`对应了`Child2`。
 
-#### return
+#### `return`
 
-返回当前fiber所在fiber树的父级fiber实例，即当前组件的父组件对应的fiber；
+返回当前fiber所在fiber树的父级fiber实例，即当前组件的父组件对应的fiber。
 
 ```jsx
 function Parent() {
@@ -198,9 +193,9 @@ function Parent() {
 `pendingProps`属性在fiber开始执行时被设置，`memoizedProps`属性在fiber执行结束时被设置。
 当`pendingProps`和`memoizedProps`相等时，标识fiber之前的输出可以被重用，这样可以避免不必要的work。
 
-#### alternate
+#### `alternate`
 
-Fiber `pooled`版本，用于记录组件更新过程中fiber的更新，用作替换恢复重用。组件更新过程的各个阶段，更新前及更新过程中fiber状态并不一致，在需要恢复时（如，发生冲突），即可使用`alternate`回退至上一版本fiber。
+Fiber `pooled`版本，用于记录组件更新过程中fiber的更新，用作替换恢复重用。组件更新过程的各个阶段，更新前及更新过程中fiber状态并不一致，在需要恢复时(如发生冲突)，即可使用`alternate`回退至上一版本fiber。
 
 - *flush*：`flush fiber`指将fiber的输出渲染至屏幕
 - *work-in-progress*：一个还没有完成的fiber，栈帧(stack frame)还没有返回
@@ -220,8 +215,8 @@ Fiber `pooled`版本，用于记录组件更新过程中fiber的更新，用作�
 - 在未来，可以实现分割tree的branches并交个不同的`worker`并行处理来提高效率
 
 
-reference：
-<br>
+## Reference
+
 [What is React Fiber ?](https://giamir.com/what-is-react-fiber)
 <br>
 [React Fiber Architecture](https://github.com/acdlite/react-fiber-architecture)

@@ -52,9 +52,7 @@ DOM只是React可以渲染的环境之一，除此之外还有通过React Native
 
 > Fiber is a reimplementation of the stack, specialized for React components. You can think of a single fiber as a virtual stack frame.
 
-React Fiber是React reconciler(调和器)的重新实现。
-
-Fiber将调和算法分成两个阶段：
+React Fiber是React reconciler(调和器)的重新实现。Fiber将调和算法分成两个阶段：
 
 - 调和阶段，对比新旧虚拟DOM树的差异，找出需要更新的地方，但并不会做实际的更新，这个阶段是可中断的。
 - 提交阶段，将第一阶段找出的差异应用到DOM上，这个阶段是不能中断的，为了防止UI不一致情况的出现。
@@ -217,6 +215,5 @@ Fiber `pooled`版本，用于记录组件更新过程中fiber的更新，用作�
 
 ## Reference
 
-[What is React Fiber ?](https://giamir.com/what-is-react-fiber)
-<br>
-[React Fiber Architecture](https://github.com/acdlite/react-fiber-architecture)
+- __[What is React Fiber ?](https://giamir.com/what-is-react-fiber)__
+- __[React Fiber Architecture](https://github.com/acdlite/react-fiber-architecture)__

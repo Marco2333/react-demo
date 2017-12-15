@@ -79,7 +79,7 @@ ReactDOM.render(<UnControlledForm />, document.getElementById('react-root'));
 
 ### 表单元素
 | 表单元素            | Value property    |  Change callback  |  New value in the callback |
-|----- | -----:| -----:| :----: |
+|----- | :-----:| :-----:| :----: |
 | \<input type="text" /> | value="string"  |  onChange | event.target.value |
 | \<input type="checkbox" /> | checked={boolean} |  onChange  | event.target.checked |
 | \<input type="radio" /> | checked={boolean} |   onChange    | event.target.checked |
@@ -90,8 +90,8 @@ ReactDOM.render(<UnControlledForm />, document.getElementById('react-root'));
 ### 受控组件 VS. 非受控组件
 受控组件与非受控组件各有优劣，需要具体问题具体分析。当我们需要对用户输入进行控制或者根据用户输入作出相应响应的时候，我们需要使用受控组件；如果我们需要的表单很简单，只需要最后进行一次简单的验证或者只依赖UI反馈，那么我们可以使用带refs的非受控组件。
 
-| 特点 | 非受控组件 |  受控组件  |
-|----- | -----:| :-----:|
+| 特点 | 非受控组件 | 受控组件 |
+|----- | :-----:| :-----:|
 | one-time value retrieval | √ | √ |
 | validating on submit | √ | √ |
 | instant field validation | × | √ |

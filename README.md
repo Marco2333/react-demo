@@ -26,6 +26,8 @@
 
 - #### __[demo12 React Fiber](https://github.com/Marco2333/react-demo/tree/master/demo/demo13%20Fiber)__
 
+- #### __[demo14 React 16.0新特性](https://github.com/Marco2333/react-demo/tree/master/demo/demo14%20React16.0)__
+
 <br>
 
 ## [React 实践](https://github.com/Marco2333/react-projects)

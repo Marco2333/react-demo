@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Immutable Test</title>
+</head>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/immutable/3.8.2/immutable.min.js"></script>
+	<script>
+		let jsObj = {
+			a: {
+				a1: {
+					a11: [1, 2, 3],
+					a12: 0
+				},
+				a2: 1
+			},
+			b: {
+				b1: [7, 8, 9],
+				b2: 2
+			},
+			c: {
+				c1: [0],
+				c2: 3,
+				c3: {
+					c31: {
+						c311: 'test' 
+					},
+					c32: (arg) => {console.log(arg)}
+				}
+			}
+		};
+
+		const imObj = Immutable.fromJS(jsObj);
+		const imObjUpdated = imObj.setIn(['c', 'c3', 'c32'], "Delete the arrow function!")
+		console.log(imObj.getIn(['c', 'c3', 'c32'])); // (arg) => {console.log(arg)}
+		console.log(imObjUpdated.getIn(['c', 'c3', 'c32'])); // Delete the arrow function!
+
+		console.log(imObj === imObjUpdated); // false
+		console.log(imObj.getIn(['a', 'a1']) === imObjUpdated.getIn(['a', 'a1'])); // true
+		console.log(imObj.getIn(['c', 'c1']) === imObjUpdated.getIn(['c', 'c1'])); // true
+		console.log(imObj.getIn(['c', 'c3']) === imObjUpdated.getIn(['c', 'c3'])); // false
+		console.log(imObj.getIn(['c', 'c3', 'c31']) === imObjUpdated.getIn(['c', 'c3', 'c31'])); // true
+	</script>
+</body>
+</html>

@@ -6,7 +6,7 @@
 
 > In object-oriented and functional programming, an immutable object (unchangeable object) is an object whose state cannot be modified after it is created.This is in contrast to a mutable object (changeable object), which can be modified after it is created.
 
-在面向对象和函数式编程中，`immutable`对象指那些一旦创建之后其状态就不能修改的对象。这是相对于`mutable`对象而言的，`mutable`对象在创建之后是可以被修改的。`immutable`对象具备__线程安全__的特性，也就是说如果没有其它限制，它可以在任意线程上自由使用。（当然这点对于JS来说并没有用，不过不排除将来JS出现多线程的特性）
+在面向对象和函数式编程中，`immutable`对象指那些一旦创建之后其状态就不能修改的对象。这是相对于`mutable`对象而言的，`mutable`对象在创建之后是可以被修改的。`immutable`对象具备 __线程安全__ 的特性，也就是说如果没有其它限制，它可以在任意线程上自由使用。（当然这点对于JS来说并没有用，不过不排除将来JS出现多线程的特性）
 
 对`immutable`对象的修改、删除操作会返回一个新的`immutable`对象，它可以简化我们的开发过程，让我们更加方便地进行数据拷贝、检测数据变化、数据缓存、版本控制（前进、回退）等。
 
@@ -23,12 +23,12 @@ let b = a;
 b.x = 'abc';
 console.log(a.x);  // abc
 ```
-虽然可变性可以带来一些好处（譬如可以节省内存），但是随着项目的复杂度增大，可变性往往带来更大的副作用。于是有了__深复制__与__浅复制__这一说，关于两者的介绍可以参考__[这里](http://hanyuehui.site/article-detail/102)__，里面讲到了__深复制__与__浅复制__的区别以及几种实现的方式。
+虽然可变性可以带来一些好处（譬如可以节省内存），但是随着项目的复杂度增大，可变性往往带来更大的副作用。于是有了 __深复制__ 与 __浅复制__ 这一说，关于两者的介绍可以参考 __[这里](http://hanyuehui.site/article-detail/102)__ ，里面讲到了 __深复制__ 与 __浅复制__ 的区别以及几种实现的方式。
 
-__深复制__是通过递归复制对象内部的所有属性实现的，它会在内存中开辟一段新的区域来存储新对象，新旧对象不共享内存，所以互不影响。这样确实可以避免可变性带来的诸多问题，但是也引入了新的问题：性能与内存浪费。
+__深复制__ 是通过递归复制对象内部的所有属性实现的，它会在内存中开辟一段新的区域来存储新对象，新旧对象不共享内存，所以互不影响。这样确实可以避免可变性带来的诸多问题，但是也引入了新的问题：性能与内存浪费。
 
-- 性能：__深复制__每次都会重新递归复制一份对象，对象越复杂递归复制时间越长，造成性能浪费；另外，如果对象深度比较大，在访问对象内部属性时也会浪费较多时间；
-- 内存：__深复制__产生的对象存放在新开辟的内存中，对它的修改不会影响旧对象；但是如果只是为了修改某个属性（新旧对象有很大的相似性）就重新复制全部对象属性会造成不必要的浪费；
+- 性能： __深复制__ 每次都会重新递归复制一份对象，对象越复杂递归复制时间越长，造成性能浪费；另外，如果对象深度比较大，在访问对象内部属性时也会浪费较多时间；
+- 内存： __深复制__ 产生的对象存放在新开辟的内存中，对它的修改不会影响旧对象；但是如果只是为了修改某个属性（新旧对象有很大的相似性）就重新复制全部对象属性会造成不必要的浪费；
 
 __`Immutable`__可以很好地解决这个问题，它通过__[`Persistent Data Structure`](https://en.wikipedia.org/wiki/Persistent_data_structure)__（持久化数据结构）实现，每次对它进行修改的时候总会保存之前的版本，并产生一个修改之后的版本，这样能够保证新旧数据同时可用。为了解决内存浪费和递归复制所有属性带来的性能问题，__`Immutable`__采用__`Structural Sharing`__（结构共享）。在修改数据时，复用没有发生变化的部分，只修改发生变化的节点及其受影响的父节点。举个例子：
 ```js
@@ -101,7 +101,7 @@ console.log(imObj.getIn(['c', 'c3', 'c31']) === imObjUpdated.getIn(['c', 'c3', '
 #### immutable.js
 `immutable.js`是Facebook的一个开源项目，主要用于解决JS中没有`Immutable`对象的问题。它提供了许多`Persistent Immutable`的数据结构，包括：`List`，`Stack`，`Map`，`OrderedMap`，`Set`，`OrderedSet`，`Record`。
 
-`immutable.js`通过__[hash maps tries](https://en.wikipedia.org/wiki/Hash_array_mapped_trie)__和__[vector tries](http://hypirion.com/musings/understanding-persistent-vector-pt-1)__实现了`structural sharing`，使`Immutable`对象的操作更加高效，而且避免了内存的浪费。
+`immutable.js`通过 __[hash maps tries](https://en.wikipedia.org/wiki/Hash_array_mapped_trie)__ 和 __[vector tries](http://hypirion.com/musings/understanding-persistent-vector-pt-1)__ 实现了`structural sharing`，使`Immutable`对象的操作更加高效，而且避免了内存的浪费。
 
 虽然`immutable.js`和React同期问世并且和React配合能够解决开发过程中的很多痛点，但它并不属于React工具集。`immutable.js`是一个独立的库，能够配合其它框架完成开发，并提供高效的Immutable对象。
 

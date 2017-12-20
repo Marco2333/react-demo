@@ -24,7 +24,9 @@
 
 - #### __[demo11 React消息传递](https://github.com/Marco2333/react-demo/tree/master/demo/demo11%20%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92)__
 
-- #### __[demo12 React Fiber](https://github.com/Marco2333/react-demo/tree/master/demo/demo13%20Fiber)__
+- #### __[demo12 Immutable 详解](https://github.com/Marco2333/react-demo/tree/master/demo/demo12%20Immutable)__
+
+- #### __[demo13 React Fiber](https://github.com/Marco2333/react-demo/tree/master/demo/demo13%20Fiber)__
 
 - #### __[demo14 React 16.0新特性](https://github.com/Marco2333/react-demo/tree/master/demo/demo14%20React16.0)__
 

@@ -5,7 +5,7 @@ JSX可以看做JavaScript的语法拓展（eXtension），看起来有点像XML�
 我们可以直接使用原生js开发，而不需要使用JSX。但是React作者强烈建议我们使用JSX，因为JSX在定义类似HTML这种树形结构时，十分简单明了。简明的代码结构更利于开发和维护。XML有着开闭标签，在构建复杂的树形结构时，比函数调用和对象字面量更加容易读懂。
 ```jsx
 //使用JSX
-React.render(
+ReactDOM.render(
     <div>
         <div>content</div>
     </div>,
@@ -13,7 +13,7 @@ React.render(
 );
 
 //不使用JSX
-React.render(
+ReactDOM.render(
     React.createElement('div', null,
         React.createElement('div', null, 'content')
     ),
@@ -143,7 +143,7 @@ var content = (
 );
 ```
 
-## JSX 延伸属性
+## JSX 扩展属性
 如果提前知道组件的属性：
 ```jsx
 var component = <Component foo={x} bar={y} />;
@@ -158,8 +158,8 @@ var component = <Component foo={x} bar={y} />;
 
 在React的设定中，初始化完props后，props是不可变的。改变props会引起无法想象的后果。
 
-### 延伸属性
-为了解决这个问题，React引入了属性延伸
+### 扩展属性
+为了解决这个问题，React引入了属性扩展
 ```jsx
 var props = {};
 props.foo = x;
@@ -187,12 +187,12 @@ var component = <Component {...props} />;
 ```
 ```jsx
 var content='<strong>content</strong>';
-React.render(
+ReactDOM.render(
     <div>{content}</div>,
-    document.body
+    document.getElementById('root')
 );
 ```
-页面会直接输出：<strong>content</strong>
+页面会直接输出：\<strong>content\</strong>
 
 解决方案：
 
@@ -232,10 +232,10 @@ Web Accessibility 属性 以 `aria-`为前缀也能被正常渲染。
 ### style属性
 在React中写行内样式时，不能采用引号的书写方式：
 ```jsx
-React.render(
+ReactDOM.render(
     <div style={{color:'red'}}>
         xxxxx
     </div>,
-    document.body
+    document.getElementById('root')
 );
 ```

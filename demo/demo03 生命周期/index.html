@@ -7,31 +7,35 @@
 <body>
 	<div id="react-root"></div>
 	<script src="../build/react.js"></script>
-    <script src="../build/react-dom.js"></script>
+	<script src="../build/react-dom.js"></script>
 	<script src="../build/browser.min.js"></script>
 	<script type="text/babel">
 		class Counter extends React.Component{
-		    constructor(props){
-		        super(props);
-		        this.state = {count : 0} 
-		        this.incrementCount = this.incrementCount.bind(this)
-		    }
-		    incrementCount(){
-		        this.setState((prevState, props) => ({
-	                count: prevState.count + 1
-	            }));
-	            this.setState((prevState, props) => ({
-	                count: prevState.count + 1
-	            }));
-		    }
-		    render(){
-		        return <div>
-		                   <button onClick={this.incrementCount}>Increment</button>
-		                   {this.state.count}
-		               </div>
-		    }
+			constructor(props){
+				super(props);
+				this.state = {count : 0} 
+				this.incrementCount = this.incrementCount.bind(this)
+			}
+			incrementCount(){
+				this.setState((prevState, props) => ({
+					count: prevState.count + 1
+				}));
+				this.setState((prevState, props) => ({
+					count: prevState.count + 1
+				}));
+			}
+			render(){
+				return <div>
+							<button onClick={this.incrementCount}>Increment</button>
+							{this.state.count}
+						</div>
+			}
 		}
-		ReactDOM.render(<Counter />, document.getElementById('react-root'));
+
+		ReactDOM.render(
+			<Counter />,
+			document.getElementById('react-root')
+		);
 	</script>
 </body>
 </html>
